@@ -1,6 +1,0 @@
-com\pghome\mapper\driver\DriverRegisterMapper.class
-com\pghome\mapper\product\ProductCategoryMapper.class
-com\pghome\mapper\order\OrderDetailMapper.class
-com\pghome\mapper\ad\AdvertMapper.class
-com\pghome\mapper\product\ProductInfoMapper.class
-com\pghome\mapper\order\OrderMasterMapper.class
