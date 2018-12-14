@@ -1,0 +1,20 @@
+<view class='main'>
+    <view>
+      <icon type="success" size="70"/>
+    </view>
+</view>
+<view class='main'>
+    <view>
+      信息已提交成功
+    </view>
+</view>
+<view class='text'>
+    <view>
+      预计0-2个工作日后审核通过
+    </view>
+</view>
+<view class='text'>
+    <view>
+      账户信息将发送到预留手机号
+    </view>
+</view>

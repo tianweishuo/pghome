@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pghome.mapper.order.OrderDetailMapper">
+    <resultMap id="BaseResultMap" type="com.pghome.pojo.order.OrderDetail">
+        <id property="detailId" column="detail_id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="productPrice" column="product_price"/>
+        <result property="productQuantity" column="product_quantity"/>
+        <result property="productIcon" column="product_icon"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        detail_id,order_id,product_id,product_name,product_price,product_quantity,product_icon,create_time,update_time
+    </sql>
+    
+    <select id="findByOrderId" resultMap="BaseResultMap">
+        select
+          <include refid="Base_Column_List"/>
+         from order_detail where order_id = #{orderId}
+    </select>
+
+    <insert id="saveOrderDetail" parameterType="com.pghome.pojo.order.OrderDetail">
+        insert into order_detail(detail_id,order_id,product_id,product_name,product_price,product_quantity,product_icon,create_time,update_time)
+        value(#{detailId},#{orderId},#{productId},#{productName},#{productPrice},#{productQuantity},#{productIcon},#{createTime},#{updateTime})
+    </insert>
+
+</mapper>

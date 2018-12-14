@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "提交成功",
+  "usingComponents": {
+    "i-row": "../../dist/row/index",
+    "i-col": "../../dist/col/index"
+  }
+}

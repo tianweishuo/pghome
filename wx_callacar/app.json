@@ -1,0 +1,13 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/chuxing/chuxing",
+    "pages/navigation/navigation"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "我要打车",
+    "navigationBarTextStyle":"black"
+  }
+}

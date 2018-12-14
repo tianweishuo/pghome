@@ -1,0 +1,28 @@
+<view class="spin-article">
+  <i-panel title="行驶证信息">
+      <view style="padding: 15px;">
+        <i-input value="{{driverName}}" right='true' title="司机姓名" placeholder="请输入" maxlength="5" bind:change='bindDrivername'/>
+        <i-input value="{{number}}" type='number' right='true' title="身份证号" placeholder="请输入" maxlength="18" bind:change='bindNumber'/>
+        <i-input value="{{phone}}" type='number' right='true' title="手机号" placeholder="请输入" maxlength="11" bind:change="bindPhone"/>
+        <picker mode="date" value="{{drivingDate}}" start="1978-01-01" end="2017-1-23" bindchange="bindDrivingDate">
+            <view class="picker">
+            初次领取驾照日期：{{drivingDate}}
+            </view>
+        </picker>
+      </view>
+  </i-panel>
+  <i-panel title="行驶证信息">
+      <view style="padding: 15px;">
+        <i-input value="{{carNumber}}" right='true' title="车牌号" maxlength="8" placeholder="请输入" bind:change='bindCarNumber'/>
+        <i-input value="{{carModel}}" right='true' title="车辆型号" maxlength="8" placeholder="请输入" bind:change='bindCarModel'/>
+        <i-input value="{{carColor}}" right='true' title="车辆颜色" maxlength="8" placeholder="请输入" bind:change='bindCarColor'/>
+        <i-input value="{{carName}}" right='true' title="车辆所有人" maxlength="5" placeholder="请输入" bind:change='bindCarName'/>
+        <picker mode="date" value="{{carRegisterDate}}" start="1978-01-01" end="2017-1-23" bindchange="bindCarRegisterDate">  
+            <view class="picker">车辆注册日期：{{carRegisterDate}}</view>
+        </picker>
+      </view>
+  </i-panel>
+  <i-button bind:click="submitdriverinfo" type="success">提交信息</i-button>
+  <i-toast id="toast" />
+  <i-spin size="large" fix wx:if="{{ spinShow }}"></i-spin>
+</view>

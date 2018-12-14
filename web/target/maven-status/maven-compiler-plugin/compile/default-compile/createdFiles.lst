@@ -1,0 +1,5 @@
+com\pghome\conteoller\product\ProductController.class
+com\pghome\WebApplication.class
+com\pghome\config\SwaggerConfig.class
+com\pghome\conteoller\ht\login.class
+com\pghome\conteoller\wx\WeChatMenuController.class
