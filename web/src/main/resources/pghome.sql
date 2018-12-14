@@ -1,5 +1,20 @@
 create database pghome;
 
+--叫车订单
+create table call_order(
+  call_order_id varchar(20) primary key not null comment '叫车订单id',
+  call_phone varchar(20) not null comment '叫车人手机号',
+  start_latitude varchar(20) not null comment '开始纬度',
+  start_longitude varchar(20) not null comment '开始经度',
+  start_position varchar(20) not null comment '开始位置',
+  end_latitude varchar(20) not null comment '结束纬度',
+  end_longitude varcher(20) not null comment '结束经度'
+  end_position varchar(20) not null comment '结束位置',
+  status smallint(5) not null comment '订单状态 1-呼叫中,2-等待司机,3-行驶中,4-行程结束,0-订单取消',
+  call_time timestamp not null comment '叫车时间',
+  updata_time timestamp not null comment '订单创建时间'
+)ENGINE=InnoDb default  CHARSET=utf-8 comment='叫车订单';
+
 --司机注册表
 create table driver_register(
 	driver_id int(11) NOT NULL primary key AUTO_INCREMENT comment 'id',
