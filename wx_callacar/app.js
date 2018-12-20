@@ -11,6 +11,7 @@ App({
     })
   },
   globalData: {
+    url:'http://veww63.natappfree.cc',
     userInfo: null,
     key: "BZOBZ-7TPKP-J3NDT-L6Z45-VYNCH-XMBNN",
     windowWidth:0,

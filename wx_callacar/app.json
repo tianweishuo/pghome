@@ -2,7 +2,8 @@
   "pages":[
     "pages/index/index",
     "pages/chuxing/chuxing",
-    "pages/navigation/navigation"
+    "pages/navigation/navigation",
+    "pages/callout/callout"
   ],
   "window":{
     "backgroundTextStyle":"light",

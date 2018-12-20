@@ -13,7 +13,6 @@
           <cover-image src='../../images/location.png' style='width:33px;height:33px;margin:8px;'></cover-image>
         </cover-view>
 
-
         <cover-view class='messageend' hidden='{{specialcarhide}}' style='height:80px'>
           <cover-view class='start' bindtap='choosestartplace'>
             <cover-image src='../../images/start.png' style='width: 20px; height: 20px; background-color: white;margin-top:0%;margin-left:0%;'></cover-image>
@@ -41,7 +40,7 @@
       </map>
     </view>
   </view>
-  <!-- <view class='buttonview'>
-    <button type="default" size="default" bindtap="default" bindtap="driving" hover-class="other-button-hover"> 选择您要去的地方 </button>
-  </view> -->
 </view>
+
+<import src="../../templates/login-model.wxml"></import>
+<!-- <template is="tempLogin" data="{{loginModelHidden:loginModelHidden}}"></template> -->

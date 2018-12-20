@@ -1,0 +1,50 @@
+<!--pages/callout/callout.wxml-->
+<!-- <text>pages/callout/callout.wxml</text> -->
+<transition enter-active-class="animated slideInUp" leave-class="animated fadeOutRight">
+  <view class="call-wrapper">
+    <view class="call-tips">
+      <view class="title">正在为您叫车</view>
+      <view class="tip">{{tips}}秒后无应答将为您优先叫车</view>
+    </view>
+
+    <view class="container">
+      <view class='progress_box'>
+        <canvas class="progress_bg" canvas-id="canvasProgressbg"> </canvas>
+        <canvas class="progress_canvas" canvas-id="canvasProgress"> </canvas>
+        <view class="progress_text">
+          <view class="progress_dot"></view>
+          <text class='progress_info'> {{progress_txt}}</text>
+        </view>
+      </view>
+    </view>
+
+
+    <!-- <view class="state">
+      <view class="loader">
+        <view class="circle-wapper">
+          <view class="circle-demo">
+            <text>00:{{tips}}</text>
+          </view>
+        </view>
+        <view class="loader-tip">
+          <text>已通知出租车</text>
+          <text class="notice-car">{{taxiCount}}辆</text>
+        </view>
+      </view>
+    </view> -->
+
+    <view class="bottom">
+      <view>
+        <button class="cancle" bindtap="back">
+          取消订单
+        </button>
+        <button class="cancle">
+          打表来接
+        </button>
+        <button class="cancle">
+          调度费
+        </button>
+      </view>
+    </view>
+  </view>
+</transition>

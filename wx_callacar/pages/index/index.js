@@ -7,6 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    loginModelHidden: !0,
     map_width: 0,
     map_height: 0,
     startplace: '起点',
@@ -346,6 +347,31 @@ Page({
 
   jiaoche:function(){
     console.log("叫车");
+    //1.先做一些安全检验
+
+    //2.调用后台数据
+    wx.request({
+      url: app.globalData.url +'/passenger/call',
+      method:'post',
+      data:{
+        phone:'11111',
+        startLatitude:'11',
+        startLongitude:'22',
+        endLatitude:'22',
+        endLongitude:'33'
+      },
+      success:function(res){
+        //接口调用成功的回调函数
+        console.log(res.data);
+        // wx.navigateTo({
+        //   url: '../callout/callout',
+        // })
+      },
+      fail:function(err){
+        //接口调用失败的回调函数
+        console.log(err)
+      }
+    })
   },
   quxiao:function(){
     var _this = this;
