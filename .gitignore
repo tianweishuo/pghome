@@ -7,9 +7,11 @@
 ## Netbeans conf            ##
 ##############################
 *.iml
+/target
+//target
 /api/target
 /common/target
-/mapper/target
 /pojo/target
 /service/target
 /web/target
+/mapper/target
