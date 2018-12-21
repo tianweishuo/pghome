@@ -1,0 +1,54 @@
+<view>
+  <view class='main'>
+    <view class='item item1' bindtap='userInfo'>
+      <i-icon class="icon-head" size="30" type="addressbook_fill" />
+    </view>
+    <view class='item item2'>
+      <i-tabs current="{{ current }}" bindchange="handleChange">
+        <i-tab key="tab1" title="打车出现"></i-tab>
+      </i-tabs>
+    </view>
+  </view>
+  <i-drawer mode="left" visible="{{showLeft1}}" bind:close="toggleLeft1">
+    <view class="demo-container">
+      单击遮罩层关闭
+    </view>
+  </i-drawer>
+
+  <view class="page-body">
+    <view class="page-section page-section-gap">
+      <map id="qqMap" style="width:{{map_width}}px;height:{{map_height}}px;background-color:white;" latitude="{{latitude}}" longitude="{{longitude}}" markers="{{markers}}" show-location polyline="{{polyline}}">
+        <cover-view class='messageend' hidden='{{specialcarhide}}' style='height:80px'>
+          <cover-view class='start' bindtap='choosestartplace'>
+            <cover-image src='../../images/start.png' style='width: 20px; height: 20px; background-color: white;margin-top:0%;margin-left:0%;'></cover-image>
+            <cover-view style='margin-left:5%;color:grey;'>{{startLocation.address}}</cover-view>
+          </cover-view>
+          <cover-view class='endplace' bindtap='chooseendplace'>
+            <cover-image src='../../images/end.png' style='width: 20px; height: 20px; background-color: white;margin-top:0%;margin-left:0%;'>
+            </cover-image>
+            <cover-view style='margin-left:5%;'>{{endLocation.address}}</cover-view>
+          </cover-view>
+        </cover-view>
+
+        <cover-view class='specialmessage' style='over-flow:scroll' hidden='{{messagehide}}'>
+          <cover-view class='selection'>
+            <cover-image class='carimgs' src='../../images/showcar.png'></cover-image>
+            <cover-view class='carmoney' style='font-size:13px;'>约:{{carmoney}}元</cover-view>
+            <!-- <cover-view style='font-size:13px;margin-top:2%;;margin-left:41%;color:grey;'>个人支付</cover-view> -->
+          </cover-view>
+          <cover-view class='nexto'>
+            <cover-view class='jiaoche' bindtap='callTaxi' style='margin-top:1%;font-size:15px;'>立即叫车</cover-view>
+            <cover-view class='quxiao' bindtap='cancel' style='margin-top:1%;font-size:15px;'>取消</cover-view>
+          </cover-view>
+        </cover-view>
+        <!-- 定位 -->
+        <cover-view class='return' style='margin-top:{{icontop}}px;' bindtap='returnback'>
+          <cover-image src='../../images/location.png' style='width:20px;height:20px;margin:5px;'></cover-image>
+        </cover-view>
+      </map>
+    </view>
+  </view>
+</view>
+
+<import src="../../templates/login-model.wxml"></import>
+<!-- <template is="tempLogin" data="{{loginModelHidden:loginModelHidden}}"></template> -->
