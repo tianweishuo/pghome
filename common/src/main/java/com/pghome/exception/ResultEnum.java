@@ -22,7 +22,10 @@ public enum ResultEnum {
     ORDER_OWNER_ERROR(19,"该订单不属于当前用户"),
     //车辆注册错误 2001XX
     DRIVER_REGISTER_PHONE_EXISTS(200101,"注册手机号已存在"),
-    DRIVER_REGISTER_CARNUMBER_EXISTS(200102,"注册车牌号已存在")
+    DRIVER_REGISTER_CARNUMBER_EXISTS(200102,"注册车牌号已存在"),
+    //叫车错误 3001xx
+    CREATE_ORDER_ERR(3001001,"创建叫车订单失败")
+
     ;
 
     private Integer code;

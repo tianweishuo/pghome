@@ -3,9 +3,11 @@ package com.pghome.passenger;
 import com.pghome.exception.PGException;
 import com.pghome.exception.ResultEnum;
 import com.pghome.param.passenger.CallOrderParam;
+import com.pghome.service.PassengerService;
 import com.pghome.utils.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +24,9 @@ import javax.validation.Valid;
 public class PassengerController {
 
     private static final Logger logger = LoggerFactory.getLogger(PassengerController.class);
+
+    @Autowired
+    private PassengerService passengerService;
 
 
 
@@ -40,10 +45,8 @@ public class PassengerController {
         }
         logger.info(param.toString());
         //2.调用server存储数据
-
-
-        return ResultUtil.ok();
-
+        String callOrderId = passengerService.createCallOrder(param);
+        return ResultUtil.ok(callOrderId);
     }
 
 }

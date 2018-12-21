@@ -5,6 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    callOrderId:null,
     tips:31,
     taxiCount:0,
     progress_txt: '正在匹配中...',
@@ -16,7 +17,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    console.log(JSON.stringify(options));
+    this.setData({ 
+      callOrderId: decodeURIComponent(options.source) 
+      })
   },
 
   /**

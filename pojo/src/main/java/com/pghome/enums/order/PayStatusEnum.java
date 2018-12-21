@@ -9,8 +9,9 @@ import lombok.Getter;
  */
 @Getter
 public enum  PayStatusEnum {
-    WAIT(0,"等待支付"),
-    SUCESS(1,"支付成功"),
+    UNSENT(0,"未发起结算未支付"),
+    WAIT(1,"已发起结算等待支付"),
+    SUCESS(2,"支付成功"),
     ;
 
 

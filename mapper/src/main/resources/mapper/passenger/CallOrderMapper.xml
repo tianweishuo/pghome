@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pghome.mapper.passenger.CallOrderMapper">
+    <resultMap id="BaseResultMap" type="com.pghome.pojo.passenger.CallOrder">
+        <id column="call_order_id" property="orderId"/>
+        <result column="call_phone" property="phone"/>
+        <result column="start_latitude" property="startLatitude"/>
+        <result column="start_longitude" property="startLongitude"/>
+        <result column="start_position_name" property="startPositionName"/>
+        <result column="end_latitude" property="endLatitude"/>
+        <result column="end_longitude" property="endLongitude"/>
+        <result column="end_position_name" property="endPositionName"/>
+        <result column="order_status" property="orderStatus"/>
+        <result column="pay_status" property="payStatus"/>
+        <result column="order_amount" property="orderAmount"/>
+        <result column="call_time" property="callTime"/>
+        <result column="update_Time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        call_order_id,
+        call_phone,
+        start_position_name,
+        start_latitude,
+        start_longitude,
+        end_position_name,
+        end_latitude,
+        end_longitude,
+        order_status,
+        pay_status,
+        order_amount,
+        call_time,
+        updata_time
+    </sql>
+
+    <insert id="create" parameterType="com.pghome.pojo.passenger.CallOrder">
+        insert into call_order(
+                call_order_id,
+                call_phone,
+                start_position_name,
+                start_latitude,
+                start_longitude,
+                end_position_name,
+                end_latitude,
+                end_longitude,
+                order_status,
+                pay_status,
+                order_amount,
+                call_time,
+                update_Time
+        )
+        values(
+        #{callOrderId},
+        #{callPhone},
+        #{startPositionName},
+        #{startLatitude},
+        #{startLongitude},
+        #{endPositionName},
+        #{endLatitude},
+        #{endLongitude},
+        #{orderStatus},
+        #{payStatus},
+        #{orderAmount},
+        #{callTime},
+        #{updateTime}
+        )
+    </insert>
+
+
+
+
+
+</mapper>

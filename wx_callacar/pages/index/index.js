@@ -7,6 +7,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    showLeft1: false,
+    current: 'tab1',
     loginModelHidden: !0,
     map_width: 0,
     map_height: 0,
@@ -344,9 +346,10 @@ Page({
     };
     wx.request(opt);
   },
-
-  jiaoche:function(){
+  //确定叫车
+  callTaxi:function(){
     console.log("叫车");
+    var _this = this;
     //1.先做一些安全检验
 
     //2.调用后台数据
@@ -354,18 +357,20 @@ Page({
       url: app.globalData.url +'/passenger/call',
       method:'post',
       data:{
-        phone:'11111',
-        startLatitude:'11',
-        startLongitude:'22',
-        endLatitude:'22',
-        endLongitude:'33'
+        callPhone:"15010050865",
+        startPositionName: _this.data.startLocation.address,
+        startLatitude: _this.data.startLocation.latitude,
+        startLongitude: _this.data.startLocation.longitude,
+        endPositionName: _this.data.endLocation.address,
+        endLatitude: _this.data.endLocation.latitude,
+        endLongitude: _this.data.endLocation.longitude
       },
       success:function(res){
         //接口调用成功的回调函数
         console.log(res.data);
-        // wx.navigateTo({
-        //   url: '../callout/callout',
-        // })
+        wx.navigateTo({
+          url: '../callout/callout?callOrderId=' + res.data.data,
+        })
       },
       fail:function(err){
         //接口调用失败的回调函数
@@ -373,7 +378,8 @@ Page({
       }
     })
   },
-  quxiao:function(){
+  //取消按钮
+  cancel:function(){
     var _this = this;
     _this.setData({
       specialcarhide: false,
@@ -395,5 +401,16 @@ Page({
   // 标点
   returnback:function(){
     console.log("标点");
+  },
+  //弹出框
+  userInfo:function(){
+    this.setData({
+      showLeft1: !this.data.showLeft1
+    });
+  },
+  toggleLeft1() {
+    this.setData({
+      showLeft1: !this.data.showLeft1
+    });
   }
 })
