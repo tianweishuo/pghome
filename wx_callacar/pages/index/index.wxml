@@ -1,3 +1,9 @@
+<i-drawer mode="left" visible="{{showLeft1}}" bind:close="toggleLeft1">
+  <view class="demo-container">
+    单击遮罩层关闭
+  </view>
+</i-drawer>
+
 <view class='main'>
   <view class='item item1' bindtap='userInfo'>
     <i-icon class="icon-head" size="30" type="addressbook_fill" />
@@ -8,57 +14,44 @@
     </i-tabs>
   </view>
 </view>
-<i-drawer mode="left" visible="{{showLeft1}}" bind:close="toggleLeft1">
-  <view class="demo-container">
-    单击遮罩层关闭
-  </view>
-</i-drawer>
 
-<view class='taxi-page'>
+
+<view class='taxi-page' style='height:{{winHeight*0.6}}rpx'>
+
   <view class="taxi-content">
     <view class="taxi-eta">
-      <view class="mf-part-loading" style="display: none;">
-        <view class="mf-part-loading-bar" style="display: block;">
-          <i class="mf-part-loading-first"></i>
-          <i class="mf-part-loading-second"></i>
-          <i class="mf-part-loading-three"></i>
-        </view>
-        <view class="mf-part-loading-err" style="display: none;">数据加载失败，点击重新获取</view>
+      <view class="mf-part-loading" style="display: block;">
+        <view class="mf-part-loading-err" style="display: block;">数据加载失败，点击重新获取</view>
       </view>
-      <view style="display: block;">“ <text>附近有11辆出租车</text> ”</view>
+      <view style="display: none;">“附近有11辆出租车”</view>
     </view>
-    
+
     <view class="taxi-location border-top-1px">
-      <view class="location">
-        <view class="location-item location-from">
-          <image src='../../images/start.png' style='width: 20px; height: 20px; background-color: white;margin-top:0%;margin-left:0%;'></image>
-          <view class="location-field border-bottom-1px" bindtap='choosestartplace'>北京首都国际机场</view>
-        </view>
-        <view class="location-item location-to location-item-inputed">
-          <image src='../../images/end.png' style='width: 20px; height: 20px; background-color: white;margin-top:0%;margin-left:0%;'></image>
-          <view class="location-field" bindtap='chooseendplace'>您去哪儿</view>
-        </view>
+
+      <view class="location-item location-from" bindtap='choosestartplace'>
+        <image src='../../images/start.png' style='width: 6%; height: 20px; background-color: white;margin-top:0%;margin-left:0%;'></image>
+        <view class="location-field border-bottom-1px" style='width: 94%;'>{{startLocation.address}}</view>
+      </view>
+
+      <view class="location-item location-to location-item-inputed" bindtap='chooseendplace'>
+        <image src='../../images/end.png' style='width: 6%; height: 20px; background-color: white;margin-top:0%;margin-left:0%;'></image>
+        <view class="location-field" style='width: 94%;'>{{endLocation.address}}</view>
       </view>
     </view>
-    
+
     <view class="taxi-rule border-top-1px">
-      <image src='../../images/surface.png' style='width: 15px; height: 15px; background-color:white;'></image>
-      <text>现在出发</text>
+      <view>
+        <image src='../../images/surface.png' style='width: 15px; height: 15px; background-color:white;'></image>
+        <text>现在出发</text>
+      </view>
     </view>
 
     <view class="taxi-price-wraper border-top-1px">
-      <view class="mf-part-loading">
-        <view class="mf-part-loading-bar" style="display: block;">
-          <i class="mf-part-loading-first"></i>
-          <i class="mf-part-loading-second"></i>
-          <i class="mf-part-loading-three"></i>
-        </view>
-        <view class="mf-part-loading-err" style="display: none;">数据加载失败，点击重新获取</view>
-      </view>
+      <view class="mf-part-loading-err" style="display:block;">数据加载失败，点击重新获取</view>
     </view>
   </view>
 
-  <view  class="taxi-send-btn">
+  <view class="taxi-send-btn">
     <view class="mf-part-loading" style="display: none;">
       <view class="mf-part-loading-bar" style="transform: scale(1); display: none;">
         <text class="mf-part-loading-first"></text>
@@ -67,11 +60,11 @@
       </view>
       <view class="mf-part-loading-err" style="display: none;">数据加载失败，点击重新获取</view>
     </view>
-    <button type="button" class="mf-btn" style="background: rgb(74, 76, 91);">呼叫出租车</button>
+    <button type="button" class="mf-btn" bindtap='callTaxi' style="background: rgb(74, 76, 91);">呼叫出租车</button>
   </view>
 </view>
 
 
+<import src="../../tamplates/login-model.wxml" />
+<template is="tempLogin" data="{{loginModelHidden:loginModelHidden}}"></template>
 
-<import src="../../templates/login-model.wxml"></import>
-<!-- <template is="tempLogin" data="{{loginModelHidden:loginModelHidden}}"></template> -->

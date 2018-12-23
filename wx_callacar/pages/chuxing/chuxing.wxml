@@ -1,12 +1,26 @@
-<view class="page-body">
-  <view class="page-section page-section-gap">
-    <map id="qqMap" style="width: 100%; height: 300px;" latitude="{{latitude}}" longitude="{{longitude}}" markers="{{markers}}" show-location></map>
-  </view>
-  <view class="btn-area">
-    <button bindtap="moveToLocation" class="page-body-button" type="primary">移动位置</button>
-    选择的位置：
-    <view>位置：{{mobileLocation.address}}</view>
-    <view>经度：{{mobileLocation.longitude}}</view>
-    <view>纬度：{{mobileLocation.latitude}}</view>
-  </view>
-</view>
+<i-button bind:click="toggleLeft1" type="ghost">左边弹出1</i-button>
+<i-button bind:click="toggleLeft2" type="primary">左边弹出2</i-button>
+<i-button bind:click="toggleRight1" type="ghost">右边弹出1</i-button>
+<i-button bind:click="toggleRight2" type="primary">右边弹出2</i-button>
+<i-drawer mode="left" visible="{{showLeft1}}" bind:close="toggleLeft1">
+    <view class="demo-container">
+        单击遮罩层关闭
+    </view>
+</i-drawer>
+<i-drawer mode="left" visible="{{showLeft2}}" mask-closable="{{false}}">
+    <view class="demo-container">
+        禁止单击遮罩关闭
+        <i-button bind:click="toggleLeft2" type="primary">关闭</i-button>
+    </view>
+</i-drawer>
+<i-drawer mode="right" visible="{{showRight1}}" bind:close="toggleRight1">
+    <view class="demo-container">
+        单击遮罩层关闭
+    </view>
+</i-drawer>
+<i-drawer mode="right" visible="{{showRight2}}" mask-closable="{{false}}">
+    <view class="demo-container">
+        禁止单击遮罩关闭
+        <i-button bind:click="toggleRight2" type="primary">关闭</i-button>
+    </view>
+</i-drawer>

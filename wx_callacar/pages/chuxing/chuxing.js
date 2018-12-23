@@ -1,97 +1,28 @@
-var QQMapWX = require('../../utils/qqmap-wx-jssdk.min.js');
-var qqmapsdk;
 Page({
   data: {
-    borderRadius: 5,
-    latitude: 0,
-    longitude: 0,
-    markers: [],
-    callout: {
-      content: '预计5分钟上车',
-      bgColor: "#736F6E",
-      color: "#ffffff",
-      padding: 10,
-      display: "ALWAYS",
-      borderRadius: 5
-    },
-    mobileLocation: {//移动选择位置数据
-      longitude: 0,
-      latitude: 0,
-      address: '',
-    }
+    showLeft1: false,
+    showLeft2: false,
+    showRight1: false,
+    showRigh2: false,
   },
-  onLoad: function () {
-    // 实例化API核心类
-    qqmapsdk = new QQMapWX({
-      key: '56d72eec4cdf618ccd9546bfe427efb1'
+  toggleLeft1() {
+    this.setData({
+      showLeft1: !this.data.showLeft1
     });
-    var that = this;
-    //获取位置
-    wx.getLocation({
-      type: 'gcj02',//默认为 wgs84 返回 gps 坐标，gcj02 返回可用于wx.openLocation的坐标
-      success: function (res) {
-        console.log(res);
-        var marker = [{
-          id: 0,
-          latitude: res.latitude,
-          longitude: res.longitude,
-          callout: {//窗体
-            content: that.data.callout.content,
-            bgColor: that.data.callout.bgColor,
-            color: that.data.callout.color,
-            padding: that.data.callout.padding,
-            display: that.data.callout.display,
-            borderRadius: that.data.callout.borderRadius
-          },
-        }];
-        var mobileLocation = {
-          latitude: res.latitude,
-          longitude: res.longitude,
-        };
-        that.setData({
-          latitude: res.latitude,
-          longitude: res.longitude,
-          markers: marker,
-        });
-        //根据坐标获取当前位置名称，显示在顶部:腾讯地图逆地址解析
-        qqmapsdk.reverseGeocoder({
-          location: {
-            latitude: res.latitude,
-            longitude: res.longitude
-          },
-          success: function (addressRes) {
-            var address = addressRes.result.formatted_addresses.recommend;
-            mobileLocation.address = address;
-            console.log(address)
-            //当前位置信息
-            that.setData({
-              mobileLocation: mobileLocation,
-            });
-          }
-        });
-      }
-    });
-
-    this.mapCtx = wx.createMapContext('qqMap');
   },
-
-  //移动选点
-  moveToLocation: function () {
-    var that = this;
-    wx.chooseLocation({
-      success: function (res) {
-        let mobileLocation = {
-          longitude: res.longitude,
-          latitude: res.latitude,
-          address: res.address,
-        };
-        that.setData({
-          mobileLocation: mobileLocation,
-        });
-      },
-      fail: function (err) {
-        console.log(err)
-      }
+  toggleLeft2() {
+    this.setData({
+      showLeft2: !this.data.showLeft2
+    });
+  },
+  toggleRight1() {
+    this.setData({
+      showRight1: !this.data.showRight1
+    });
+  },
+  toggleRight2() {
+    this.setData({
+      showRight2: !this.data.showRight2
     });
   }
 });

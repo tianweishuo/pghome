@@ -1,4 +1,9 @@
-@import "../../style/iconfon.wxss";
+@import "../../tamplates/login-model.wxss";
+
+page {
+  width: 100%;
+  height: 100%;
+}
 
 .main {
   width: 100%;
@@ -11,55 +16,104 @@
   align-items: center;
   justify-content: center;
   width: 20%;
-  border-right:1rpx solid #F5F6F6;
-  border-bottom:1rpx solid #F5F6F6;
+  border-right: 1rpx solid #f5f6f6;
+  border-bottom: 1rpx solid #f5f6f6;
 }
 
 .item2 {
-  background-color: dodgerblue;
   width: 90%;
 }
 
-
-.taxi-page{
+.taxi-page {
   display: flex;
   flex-direction: column;
-  align-items:center;
-  justify-content: center;
-  height: 80%;
 }
 
-.taxi-page .taxi-content{
-  border:1rpx solid #F6F5F4;
-  width: 90%;
+.taxi-content {
+  width: 95%;
+  height: 70%;
+  margin: 0 auto;
+  border: 1rpx solid #f6f5f4;
 }
 
-.taxi-page .taxi-content .taxi-eta{
-  text-align: center;
-  color: #9A9791;
-  border-bottom: 1rpx solid #ECEBE9;
+.taxi-send-btn {
+  width: 95%;
+  height: 30%;
+  margin: 0 auto;
 }
 
-.border-top-1px{
-  border-top: 1rpx solid #ECEBE9;
+.mf-btn {
+  color: #fff;
 }
 
-.taxi-page .taxi-content .taxi-location{
+.taxi-eta {
   display: flex;
   align-items: center;
-  width: 100%;
-}
-
-.taxi-page .taxi-content .taxi-location .location{
-
-}
-
-.taxi-page .taxi-content .taxi-location .location .location-item{
-  display: flex;
-}
-
-.taxi-location .taxi-rule{
-  background-color: red;
-  display: flex;
   justify-content: center;
+  font-weight: 200;
+  width: 100%;
+  height: 20%;
+  color: #9a9791;
+  border-bottom: 1rpx solid #ecebe9;
+}
+
+.taxi-location {
+  width: 100%;
+  height: 40%;
+}
+
+.taxi-rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 100;
+  font-size: 30rpx;
+  width: 100%;
+  height: 20%;
+}
+
+.taxi-price-wraper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 100;
+  width: 100%;
+  height: 20%;
+}
+
+.location-field{
+  font-size: 25rpx;
+}
+
+.location-item {
+  display: flex;
+  font-weight: 100;
+  width: 90%;
+  height: 50%;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.location-from{
+  color: #fc9153;
+}
+
+.location-to {
+  border-top: 1rpx solid #ecebe9;
+}
+
+.border-top-1px {
+  border-top: 1rpx solid #ecebe9;
+}
+
+.demo-container {
+  background-color: #fff;
+}
+
+.taxi-price-wraper{
+  font-size: 30rpx;
+}
+
+.mf-part-loading-err{
+  font-size: 30rpx;
 }

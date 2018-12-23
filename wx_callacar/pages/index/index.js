@@ -7,16 +7,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    showLeft1: false,
-    current: 'tab1',
-    loginModelHidden: !0,
-    map_width: 0,
-    map_height: 0,
-    startplace: '起点',
-    endplace: '到哪下车',
+    loginModelHidden: 0,
     specialcarhide: false,
     messagehide: true,
-    carmoney:0,
+    carmoney: 0,
     borderRadius: 5,
     latitude: 0,
     longitude: 0,
@@ -34,43 +28,44 @@ Page({
     startLocation: { //移动选择位置数据
       longitude: 0,
       latitude: 0,
-      address: '起点',
+      address: '您在哪上车',
     },
     endLocation: { //移动选择位置数据
       longitude: 0,
       latitude: 0,
-      address: '到哪下车',
-    }
+      address: '您去哪',
+    },
+    clientHeight: 0,
+    clientWidth: 0,
+    winHeight: 0
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    var _this = this;
-    _this.setData({
-      map_width: app.globalData.screenWidth,
-      map_height: app.globalData.screenHeight * 0.8,
+  onLoad: function(options) {
+    var that = this;
+    //  高度自适应（rpx）
+    wx.getSystemInfo({
+      success: function(res) {
+        var clientHeight = res.windowHeight - 120,
+          clientWidth = res.windowWidth,
+          rpxR = 750 / clientWidth;
+        var calc = clientHeight * rpxR;
+        that.setData({
+          winHeight: calc
+        });
+      }
     });
-    // _this.setData({
-    //   map_width: app.globalData.windowWidth,
-    //   map_height: app.globalData.windowHeight * 0.9,
-    //   specialheight: app.globalData.windowHeight * 0.5,
-    //   topheight: app.globalData.windowHeight * 0.63,
-    //   timetopheight: app.globalData.windowHeight * 0.63,
-    //   cartopheight: app.globalData.windowHeight * 0.53,
-    //   selectcartopheight: app.globalData.windowHeight * 0.63,
-    //   icontop: app.globalData.windowHeight * 0.45,
-    // })
     // 实例化API核心类
     qqmapsdk = new QQMapWX({
       key: app.globalData.key
     });
-    var that = this;
     //获取位置
     wx.getLocation({
       type: 'gcj02', //默认为 wgs84 返回 gps 坐标，gcj02 返回可用于wx.openLocation的坐标
-      success: function (res) {
+      success: function(res) {
+        console.log('页面初始化' + JSON.stringify(res));
         var startmarker = {
           id: 0,
           latitude: res.latitude,
@@ -105,7 +100,8 @@ Page({
             latitude: res.latitude,
             longitude: res.longitude
           },
-          success: function (addressRes) {
+          success: function(addressRes) {
+            console.log(addressRes);
             var address = addressRes.result.formatted_addresses.recommend;
             startLocation.address = address;
             //当前位置信息
@@ -122,61 +118,61 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
 
   },
   //移动选点开始
-  choosestartplace: function () {
+  choosestartplace: function() {
     var _this = this;
     wx.chooseLocation({
-      success: function (res) {
+      success: function(res) {
         var markers = [];
         let startLocation = {
           longitude: res.longitude,
           latitude: res.latitude,
-          address: res.address,
+          address: res.address + '-' + res.name,
         };
         for (var index in _this.data.markers) {
           console.log(_this.data.markers[index].id);
@@ -215,23 +211,24 @@ Page({
           //判断是否存在下车点
           if (_this.data.markers[index].id == 1) {
             _this.setData({
-              specialcarhide:true,
+              specialcarhide: true,
               messagehide: false,
             })
             _this.driving();
           }
         }
       },
-      fail: function (err) {
+      fail: function(err) {
         console.log(err)
       }
     });
   },
   //移动选择结束
-  chooseendplace: function () {
+  chooseendplace: function() {
     var _this = this;
     wx.chooseLocation({
-      success: function (res) {
+      success: function(res) {
+        console.log(res);
         var marker = {
           id: 1,
           latitude: res.latitude,
@@ -264,7 +261,7 @@ Page({
         let endLocation = {
           longitude: res.longitude,
           latitude: res.latitude,
-          address: res.address,
+          address: res.address + '-' + res.name,
         };
         _this.setData({
           endLocation: endLocation,
@@ -276,19 +273,19 @@ Page({
           if (_this.data.markers[index].id == 0) {
             _this.setData({
               specialcarhide: true,
-              messagehide:false,
+              messagehide: false,
             })
             _this.driving();
           }
         }
       },
-      fail: function (err) {
+      fail: function(err) {
         console.log(err)
       }
     });
   },
   //事件回调函数
-  driving: function () {
+  driving: function() {
     var _this = this;
     _this.setData({
       includePoints: []
@@ -315,7 +312,7 @@ Page({
       method: 'GET',
       dataType: 'json',
       //请求成功回调
-      success: function (res) {
+      success: function(res) {
         console.log(res.data.result.routes[0]);
         var ret = res.data
         if (ret.status != 0) return; //服务异常处理
@@ -347,17 +344,17 @@ Page({
     wx.request(opt);
   },
   //确定叫车
-  callTaxi:function(){
+  callTaxi: function() {
     console.log("叫车");
     var _this = this;
     //1.先做一些安全检验
 
     //2.调用后台数据
     wx.request({
-      url: app.globalData.url +'/passenger/call',
-      method:'post',
-      data:{
-        callPhone:"15010050865",
+      url: app.globalData.url + '/passenger/call',
+      method: 'post',
+      data: {
+        callPhone: "15010050865",
         startPositionName: _this.data.startLocation.address,
         startLatitude: _this.data.startLocation.latitude,
         startLongitude: _this.data.startLocation.longitude,
@@ -365,26 +362,26 @@ Page({
         endLatitude: _this.data.endLocation.latitude,
         endLongitude: _this.data.endLocation.longitude
       },
-      success:function(res){
+      success: function(res) {
         //接口调用成功的回调函数
         console.log(res.data);
         wx.navigateTo({
           url: '../callout/callout?callOrderId=' + res.data.data,
         })
       },
-      fail:function(err){
+      fail: function(err) {
         //接口调用失败的回调函数
         console.log(err)
       }
     })
   },
   //取消按钮
-  cancel:function(){
+  cancel: function() {
     var _this = this;
     _this.setData({
       specialcarhide: false,
       messagehide: true,
-      markers:null,
+      markers: null,
       polyline: null,
       startLocation: { //移动选择位置数据
         longitude: 0,
@@ -398,17 +395,8 @@ Page({
       }
     });
   },
-  // 标点
-  returnback:function(){
-    console.log("标点");
-  },
   //弹出框
-  userInfo:function(){
-    this.setData({
-      showLeft1: !this.data.showLeft1
-    });
-  },
-  toggleLeft1() {
+  userInfo: function() {
     this.setData({
       showLeft1: !this.data.showLeft1
     });
