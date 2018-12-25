@@ -1,20 +1,19 @@
 package com.pghome.driver;
 
+import com.pghome.SpringUtil;
 import com.pghome.exception.PGException;
 import com.pghome.exception.ResultEnum;
 import com.pghome.param.driver.RegisterParam;
 import com.pghome.pojo.driver.DriverRegister;
 import com.pghome.service.DriverService;
 import com.pghome.utils.ResultUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -47,10 +46,32 @@ public class RegisterController {
         }
         //2.插入数据库
         DriverRegister driverRegister = new DriverRegister();
+        param.setCarModel(param.getCarName().toUpperCase());
         BeanUtils.copyProperties(param,driverRegister);
         driverService.create(driverRegister);
         logger.info("【控制层:司机注册信息】");
         return ResultUtil.ok();
+    }
+
+
+    @PostMapping("/login")
+    public ResultUtil login(@RequestParam(value = "username") String username,
+                            @RequestParam(value = "password") String password,
+                            @RequestParam(value = "cid") String cid) {
+
+        if(!StringUtils.isNotBlank(username)){
+            throw new PGException(ResultEnum.LOGIN_USERNAME_NOT_NULL);
+        }else if(!StringUtils.isNotBlank(password)){
+            throw new PGException(ResultEnum.LOGIN_PASSWORD_NOT_NULL);
+        }else if(!StringUtils.isNotBlank(cid)){
+            throw new PGException(ResultEnum.LOGIN_CID_NOT_NOLL);
+        }
+        //判断用户是否存在
+        DriverRegister driverRegister = driverService.findByPhone(username);
+        if(!password.equals(driverRegister.getPassword())){
+            throw new PGException(ResultEnum.PASSWORD_ERROR);
+        }
+        return ResultUtil.ok(driverRegister);
     }
 
     /**

@@ -24,9 +24,13 @@ public enum ResultEnum {
     DRIVER_REGISTER_PHONE_EXISTS(200101,"注册手机号已存在"),
     DRIVER_REGISTER_CARNUMBER_EXISTS(200102,"注册车牌号已存在"),
     //叫车错误 3001xx
-    CREATE_ORDER_ERR(3001001,"创建叫车订单失败")
-
-    ;
+    CREATE_ORDER_ERR(3001001,"创建叫车订单失败"),
+    //司机登录注册 4001xx
+    LOGIN_USERNAME_NOT_NULL(4001001,"用户名不能为空"),
+    LOGIN_PASSWORD_NOT_NULL(4001002,"密码不能为空"),
+    LOGIN_CID_NOT_NOLL(4001003,"cid不能为空"),
+    DRIVER_DOES_NOT_EXIST(4001004,"账号不存在"),
+    PASSWORD_ERROR(4001005,"密码错误");
 
     private Integer code;
 

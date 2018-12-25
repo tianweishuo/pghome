@@ -15,9 +15,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class WSServer {
 
+    private ServerBootstrap server;
     private EventLoopGroup mainGroup;
     private EventLoopGroup subGroup;
-    private ServerBootstrap server;
     private ChannelFuture future;
 
     private static class SingletionWSServer {
@@ -29,9 +29,9 @@ public class WSServer {
     }
 
     public WSServer() {
+        server = new ServerBootstrap();
         mainGroup = new NioEventLoopGroup();
         subGroup = new NioEventLoopGroup();
-        server = new ServerBootstrap();
         server.group(mainGroup, subGroup)
                 .channel(NioServerSocketChannel.class)
                 .childHandler(new WSServerInitialzer());

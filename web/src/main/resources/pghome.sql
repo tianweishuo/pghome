@@ -20,6 +20,8 @@ create table call_order(
 --司机注册表
 create table driver_register(
 	driver_id int(11) NOT NULL primary key AUTO_INCREMENT comment 'id',
+	phone varchar(20) NOT NULL  comment '手机号',
+	password varchar(20) DEFAULT NULL comment '密码',
 	driver_name VARCHAR(10) not null comment '司机名称',
 	type smallint(5) not null comment '证件类型',
 	number varchar(20) not null comment '证件号码',
@@ -33,8 +35,6 @@ create table driver_register(
   create_time timestamp not null comment '创建日期',
   update_time timestamp not null comment '修改日期'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='司机注册表';
-
-
 
 
 -- 菜单

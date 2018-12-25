@@ -29,4 +29,11 @@ public interface DriverService {
      * @param param
      */
     void create(DriverRegister param);
+
+    /**
+     * 通过手机号查询
+     * @param phone
+     * @return
+     */
+    DriverRegister findByPhone(String phone);
 }

@@ -22,6 +22,8 @@ public class DriverRegister {
     private String driverName;
     //手机号
     private String phone;
+    //密码
+    private String password;
     //证件类型 默认身份证号
     private Integer type;
     //证件号码

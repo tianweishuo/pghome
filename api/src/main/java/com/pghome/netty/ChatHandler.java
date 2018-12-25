@@ -3,6 +3,7 @@ package com.pghome.netty;
 import com.pghome.SpringUtil;
 import com.pghome.enums.driver.MsgActionEnum;
 import com.pghome.utils.JsonUtils;
+import com.pghome.utils.RedisOperator;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -10,6 +11,10 @@ import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.concurrent.GlobalEventExecutor;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.time.LocalDateTime;
+import java.util.Iterator;
 
 /**
  * @Auther: tianws
@@ -20,19 +25,40 @@ import io.netty.util.concurrent.GlobalEventExecutor;
 public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
 
 
-    public static ChannelGroup users =
-            new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+    public static ChannelGroup users = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+
+    @Autowired
+    private RedisOperator redisOperator;
+
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg)
             throws Exception {
         // 获取客户端传输过来的消息
         String content = msg.text();
-
         Channel currentChannel = ctx.channel();
+        // 1. 获取客户端发来的消息
+        DataContent dataContent = JsonUtils.jsonToPojo(content, DataContent.class);
+        Integer action = dataContent.getAction();
+        // 2. 判断消息类型，根据不同的类型来处理不同的业务
+        if(action == MsgActionEnum.ORDER_PUSH.type){
+            //订单推送
+            users.writeAndFlush(
+                    new TextWebSocketFrame(
+                            "[来单了]" + LocalDateTime.now()
+                                    + "接受到消息, 消息为：" + content));
+        }
+        if(action == MsgActionEnum.CONNECT.type){
 
-        System.out.println("内容:"+content);
-/*
+        }else if(action == MsgActionEnum.KEEPALIVE.type){
+
+        }else if(action == MsgActionEnum.PULL_FRIEND.type){
+
+        }
+
+
+
+        /*
         // 1. 获取客户端发来的消息
         DataContent dataContent = JsonUtils.jsonToPojo(content, DataContent.class);
         Integer action = dataContent.getAction();
@@ -132,6 +158,7 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
         ctx.channel().close();
         users.remove(ctx.channel());
     }
+
 
 
 }

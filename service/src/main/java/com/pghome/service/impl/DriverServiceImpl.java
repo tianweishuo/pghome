@@ -73,4 +73,18 @@ public class DriverServiceImpl implements DriverService {
         driverRegisterMapper.create(param);
     }
 
+    /**
+     * 通过手机号查询
+     * @param phone
+     * @return
+     */
+    @Override
+    public DriverRegister findByPhone(String phone) {
+        DriverRegister driverRegister = driverRegisterMapper.findByPhone(phone);
+        if(driverRegister == null){
+            throw new PGException(ResultEnum.DRIVER_DOES_NOT_EXIST);
+        }
+        return driverRegister;
+    }
+
 }

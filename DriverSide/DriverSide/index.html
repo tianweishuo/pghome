@@ -8,36 +8,26 @@
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<script src="js/mui.min.js"></script>
 		<script type="text/javascript">
-			mui.plusReady(function() {
-				plus.navigator.setStatusBarBackground("#364059");
-				plus.navigator.setStatusBarStyle("light");
-				mui.openWindow({
-					url: "home.html",
-					id: "home.html",
-					styles: {
-						top: "44px", //新页面顶部位置
-						bottom: "0px" //新页面底部位置
-					},
-					createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
-					show: {
-						autoShow: true, //页面loaded事件发生后自动显示，默认为true
-						//aniShow: "slide-in-right", //页面显示动画，默认为”slide-in-right“；
-						//duration: animationTime //页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
-					},
-					waiting: {
-						autoShow: true, //自动显示等待框，默认为true
-						title: '正在加载...', //等待对话框上显示的提示内容
-						options: {
-							//width: waiting - dialog - widht, 等待框背景区域宽度，默认根据内容自动计算合适宽度
-							//height: waiting - dialog - height, 等待框背景区域高度，默认根据内容自动计算合适高度
-						}
-					}
-				})
-			})
+			mui.init();
 		</script>
 	</head>
 
 	<body>
+		<nav class="mui-bar mui-bar-tab">
+			<a class="mui-tab-item mui-active" tabindex="0">
+				<span class="mui-icon mui-icon-home"></span>
+				<span class="mui-tab-label">首页</span>
+			</a>
+			<a class="mui-tab-item" tabindex="1">
+				<span class="mui-icon mui-icon-phone"></span>
+				<span class="mui-tab-label">订单列表</span>
+			</a>
+			<a class="mui-tab-item" tabindex="2">
+				<span class="mui-icon mui-icon-gear"></span>
+				<span class="mui-tab-label">设置</span>
+			</a>
+		</nav>
+
 		<script type="text/javascript">
 			//1.是否高精确度获取位置信息
 			//2.获取位置信息的超时时间单位为毫秒（ms）
@@ -58,47 +48,35 @@
 				provider: 'amap'
 			};
 
+			var list = [{
+					pageId: "home.html",
+					pageUrl: "home.html"
+				},
+				{
+					pageId: "order-list.html",
+					pageUrl: "order-list.html"
+				},
+				{
+					pageId: "me-list.html",
+					pageUrl: "me-list.html"
+				}
+			];
+
+			var style = {
+				top: "44px",
+				bottom: "50px"
+			}
+
 			var _self, titleView;
 			mui.plusReady(function() {
 				// 禁止返回到登录注册页面
 				mui.back = function() {
 					return false;
 				}
-
-				_self = plus.webview.currentWebview();
-				//1、获取导航视图对象
-				var titleView = _self.getTitleNView();
-				//2、创建Bitmap对象
-				bitmap_menu = new plus.nativeObj.Bitmap('menu');
-				//3、填充图像（将图标转换为 base64 编码，网址：http://tool.css-js.com/base64.html）
-				bitmap_menu.loadBase64Data("data:image/png;base64,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",
-					function() {
-						console.log('原生顶部导航创建成功');
-					},
-					function(e) {
-						console.log('原生顶部导航创建失败 ' + JSON.stringify(e));
-					});
-				//4、绘制到导航上
-				titleView.drawBitmap(bitmap_menu, {}, {
-					top: "12px",
-					left: "10px",
-					width: "20px",
-					height: "20px"
-				});
-
-				//绑定点击
-				titleView.interceptTouchEvent(true);
-				titleView.addEventListener("click", function(e) {
-					plus.nativeUI.alert("跳转个人信息界面",
-						function() {
-							console.log("User pressed!");
-						}, "提示", "确认")
-				});
-
 				// 对网络连接进行事件监听
 				document.addEventListener("netchange", function() {
 					// 网络状态获取和判断
-					console.log("00000000000000000000000000000");
+					console.log("网络监听:开始");
 					var nt = plus.networkinfo.getCurrentType();
 					console.log(nt);
 					switch(nt) {
@@ -116,6 +94,35 @@
 							break;
 					}
 				});
+				// 获取当前的webview对象
+				var indexWebview = plus.webview.currentWebview()
+				// 向当前的主页webview追加子页的4张webview对象
+				for(var i = 0; i < list.length; i++) {
+					var page = plus.webview.create(list[i].pageUrl, list[i].pageId, style);
+					// 隐藏webview窗口
+					page.hide();
+					// 追加每一个子页面到当前主页面
+					indexWebview.append(page);
+				}
+				plus.webview.show(list[0].pageId);
+
+				// 批量绑定tap事件，展示不同的页面
+				mui(".mui-bar-tab").on("tap", "a", function() {
+					var tabindex = this.getAttribute("tabindex");
+					console.log(tabindex);
+					// 显示点击的tab选项所对应的页面
+					plus.webview.show(list[tabindex].pageId, "fade-in", 200);
+					// 隐藏其他的不需要的页面
+					for(var i = 0; i < list.length; i++) {
+						if(i != tabindex) {
+							plus.webview.hide(list[i].pageId, "fade-out", 200);
+						}
+					}
+					// 延时加载
+					setTimeout("initData()", "1000");
+
+				})
+
 				//获取定位
 				plus.geolocation.getCurrentPosition(
 					function(position) {
@@ -128,15 +135,13 @@
 						enableHighAccuracy: true
 					});
 
-				
 			});
-			
 
 			// 监听网络状态更改
 			function netChangeSwitch() {
 				document.addEventListener("netchange", function() {
 					// 网络状态获取和判断
-					console.log("00000000000000000000000000000");
+					console.log("网络监听");
 					var nt = plus.networkinfo.getCurrentType();
 					switch(nt) {
 						case plus.networkinfo.CONNECTION_ETHERNET:
@@ -153,6 +158,15 @@
 							break;
 					}
 				});
+			}
+
+			// 预加载
+			function initData() {
+				var imooc_chatlist = plus.webview.getWebviewById("home.html");
+				mui.fire(imooc_chatlist, "refresh");
+
+				var imooc_me = plus.webview.getWebviewById("imooc-me.html");
+				mui.fire(imooc_me, "refresh");
 			}
 		</script>
 	</body>

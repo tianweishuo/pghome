@@ -5,6 +5,7 @@
     <resultMap id="BaseResultMap" type="com.pghome.pojo.driver.DriverRegister">
         <id property="driverId" column="driver_id"/>
         <result property="phone" column="phone"/>
+        <result property="password" column="password"/>
         <result property="driverName" column="driver_name"/>
         <result property="type" column="type"/>
         <result property="number" column="number"/>
@@ -20,7 +21,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        driver_id,driver_name,phone,type number,driving_date,car_number,car_model,car_color,car_name,car_register_date,status,update_time,create_time
+        driver_id,driver_name,phone,password,type number,driving_date,car_number,car_model,car_color,car_name,car_register_date,status,update_time,create_time
     </sql>
 
     <insert id="create" parameterType="com.pghome.pojo.driver.DriverRegister">
