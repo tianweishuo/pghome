@@ -1,4 +1,6 @@
 // pages/callout/callout.js
+const app = getApp();
+var socketTask;
 Page({
 
   /**
@@ -21,6 +23,29 @@ Page({
     this.setData({ 
       callOrderId: decodeURIComponent(options.source) 
       })
+      //建立长连接进行发送叫车信息
+    wx.connectSocket({
+      url: "ws://127.0.0.1:8088/ws",
+      data: {
+        action: '6'
+      }
+    });
+    // 构建对象
+    var dataContent = {
+      action:'6',
+      chatMsg:null,
+      extand:null
+    };
+
+    wx.onSocketOpen(function (res) {
+      wx.sendSocketMessage({
+        data: JSON.stringify(dataContent),
+        success: function () {
+          console.log("发送成功");
+        }
+      })
+    })
+
   },
 
   /**
@@ -128,6 +153,17 @@ Page({
     this.drawProgressbg();
     //this.drawCircle(2)
     this.countInterval();
-  }
+  },
+  /**
+ * 构建消息 DataContent 模型对象
+ * @param {Object} action
+ * @param {Object} chatMsg
+ * @param {Object} extand
+ */
+  DataContent: function (action, chatMsg, extand) {
+    this.action = action;
+    this.chatMsg = chatMsg;
+    this.extand = extand;
+  },
 
 })

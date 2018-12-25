@@ -11,6 +11,8 @@ import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.concurrent.GlobalEventExecutor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
@@ -23,6 +25,8 @@ import java.util.Iterator;
  *               在netty中，是用于为websocket专门处理文本的对象，frame是消息的载体
  */
 public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
+
+    private static final Logger logger = LoggerFactory.getLogger(ChatHandler.class);
 
 
     public static ChannelGroup users = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
@@ -37,6 +41,7 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
         // 获取客户端传输过来的消息
         String content = msg.text();
         Channel currentChannel = ctx.channel();
+        logger.info("webscoket消息内容:{}",content);
         // 1. 获取客户端发来的消息
         DataContent dataContent = JsonUtils.jsonToPojo(content, DataContent.class);
         Integer action = dataContent.getAction();
@@ -53,6 +58,8 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
         }else if(action == MsgActionEnum.KEEPALIVE.type){
 
         }else if(action == MsgActionEnum.PULL_FRIEND.type){
+
+        }else if(action == MsgActionEnum.ORDER_PUSH.type){
 
         }
 

@@ -12,6 +12,7 @@ App({
   },
   globalData: {
     url:'http://4k5edj.natappfree.cc',
+    websocket:'ws://4k5edj.natappfree.cc',
     userInfo: null,
     key: "BZOBZ-7TPKP-J3NDT-L6Z45-VYNCH-XMBNN",
     windowWidth:0,
