@@ -292,34 +292,31 @@ window.app = {
 	 * 和后端的枚举对应
 	 */
 	CONNECT: 1, 	// 第一次(或重连)初始化连接
-	CHAT: 2, 		// 聊天消息
-	SIGNED: 3, 		// 消息签收
-	KEEPALIVE: 4, 	// 客户端保持心跳
-	PULL_FRIEND:5,	// 重新拉取好友
+	CALL_ORDER: 2, 	// 发送订单
+	KEEPALIVE: 3, 	// 客户端保持心跳
 	
 	/**
-	 * 和后端的 ChatMsg 聊天模型对象保持一致
+	 * 和后端的 DriverMeg 模型对象保持一致
 	 * @param {Object} senderId
-	 * @param {Object} receiverId
-	 * @param {Object} msg
-	 * @param {Object} msgId
+	 * @param {Object} latitude 数据类型对象，地理坐标中的纬度值。
+	 * @param {Object} longitude 数据类型对象，地理坐标中的经度值。
 	 */
-	ChatMsg: function(senderId, receiverId, msg, msgId){
+	DriverMeg: function(senderId,phone,latitude,longitude){
 		this.senderId = senderId;
-		this.receiverId = receiverId;
-		this.msg = msg;
-		this.msgId = msgId;
+		this.phone = phone;
+		this.latitude = latitude;
+		this.longitude = longitude;
 	},
 	
 	/**
 	 * 构建消息 DataContent 模型对象
 	 * @param {Object} action
-	 * @param {Object} chatMsg
+	 * @param {Object} driverMeg
 	 * @param {Object} extand
 	 */
-	DataContent: function(action, chatMsg, extand){
+	DataContent: function(action, driverMeg, extand){
 		this.action = action;
-		this.chatMsg = chatMsg;
+		this.driverMeg = driverMeg;
 		this.extand = extand;
 	},
 	

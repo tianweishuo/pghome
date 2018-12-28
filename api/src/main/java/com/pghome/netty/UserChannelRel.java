@@ -1,6 +1,7 @@
 package com.pghome.netty;
 
-import java.util.HashMap;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import io.netty.channel.Channel;
 
@@ -9,7 +10,7 @@ import io.netty.channel.Channel;
  */
 public class UserChannelRel {
 
-	private static HashMap<String, Channel> manager = new HashMap<>();
+	private static ConcurrentHashMap<String, Channel> manager = new ConcurrentHashMap<>();
 
 	public static void put(String senderId, Channel channel) {
 		manager.put(senderId, channel);

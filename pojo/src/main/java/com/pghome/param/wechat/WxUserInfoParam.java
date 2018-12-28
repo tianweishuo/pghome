@@ -1,16 +1,20 @@
-package com.pghome.pojo.wx;
+package com.pghome.param.wechat;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 /**
- * 用户信息对象，不包含 openid 等敏感信息
+ * @Auther: tianws
+ * @Date: 2018/12/28 15:09
+ * @Description:
  */
 @Getter
 @Setter
 @ToString
-public class WeChatUserInfo {
+public class WxUserInfoParam {
+    //用户唯一表示
+    private String openId;
     //用户昵称
     private String nickName;
     //用户性别 0-未知,1-男性,2-女性
@@ -28,4 +32,5 @@ public class WeChatUserInfo {
     // 46 表示 46x46 的正方形头像，剩余数值以此类推。默认132），
     // 用户没有头像时该项为空。若用户更换头像，原有头像 URL 将失效。
     private String avatarUrl;
+
 }

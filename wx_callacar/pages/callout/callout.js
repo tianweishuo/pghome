@@ -7,9 +7,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    callOrderId:null,
-    tips:31,
-    taxiCount:0,
+    callOrderId: null,
+    tips: 31,
+    taxiCount: 0,
     progress_txt: '正在匹配中...',
     count: 0, // 设置 计数器 初始为0
     countTimer: null // 设置 定时器 初始为null
@@ -19,24 +19,29 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(JSON.stringify(options));
-    this.setData({ 
-      callOrderId: decodeURIComponent(options.source) 
-      })
-      //建立长连接进行发送叫车信息
+    var _this = this;
+    this.setData({
+      callOrderId: decodeURIComponent(options.callOrderId)
+    });
+    //建立长连接进行发送叫车信息
     wx.connectSocket({
       url: "ws://127.0.0.1:8088/ws",
-      data: {
-        action: '6'
+      success: function () {
+        console.log("websocket连接成功!");
       }
     });
     // 构建对象
     var dataContent = {
-      action:'6',
-      chatMsg:null,
-      extand:null
+      action: '2',
+      callMeg: {
+        senderId: '15810723212',
+        phone: '15810723212',
+        callOrderId: _this.data.callOrderId,
+      },
+      extand: null
     };
 
+    //监听 WebSocket 连接打开事件
     wx.onSocketOpen(function (res) {
       wx.sendSocketMessage({
         data: JSON.stringify(dataContent),
@@ -44,8 +49,12 @@ Page({
           console.log("发送成功");
         }
       })
-    })
+    });
 
+    //监听 WebSocket 接受到服务器的消息事件
+    wx.onSocketMessage(function (res) {
+      console.log(JSON.stringify(res));
+    })
   },
 
   /**
@@ -96,8 +105,8 @@ Page({
   onShareAppMessage: function () {
 
   },
-  back:function(){
-    
+  back: function () {
+
   },
   countInterval: function () {
     // 设置倒计时 定时器 每100毫秒执行一次，计数器count+1 ,耗时6秒绘一圈
@@ -107,12 +116,11 @@ Page({
         注意此处 传参 step 取值范围是0到2，
         所以 计数器 最大值 60 对应 2 做处理，计数器count=60的时候step=2
         */
-        this.drawCircle(this.data.count / (30/2));
+        this.drawCircle(this.data.count / (30 / 2));
         this.setData({
-          count:this.data.count + 1,
+          count: this.data.count + 1,
           tips: this.data.tips - 1
         })
-        console.log(this.data.count);
       } else {
         this.setData({
           progress_txt: "匹配成功"
@@ -153,17 +161,6 @@ Page({
     this.drawProgressbg();
     //this.drawCircle(2)
     this.countInterval();
-  },
-  /**
- * 构建消息 DataContent 模型对象
- * @param {Object} action
- * @param {Object} chatMsg
- * @param {Object} extand
- */
-  DataContent: function (action, chatMsg, extand) {
-    this.action = action;
-    this.chatMsg = chatMsg;
-    this.extand = extand;
-  },
+  }
 
 })

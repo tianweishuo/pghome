@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pghome.mapper.wechat.WxUserMapper">
+    <resultMap id="BaseResultMap" type="com.pghome.pojo.wxchat.WxUserInfo">
+        <id column="open_id" property="openId"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="phoen" property="phoen"/>
+        <result column="avatar_url" property="avatarUrl"/>
+        <result column="gender" property="gender"/>
+        <result column="country" property="country"/>
+        <result column="province" property="province"/>
+        <result column="city" property="city"/>
+        <result column="language" property="language"/>
+        <result column="updateTime" property="updateTime"/>
+        <result column="createTime" property="createTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        open_id,nick_name,phoen,avatar_url,gender,country,province,city,language,update_time,create_time
+    </sql>
+
+    <insert id="insert" parameterType="com.pghome.pojo.wxchat.WxUserInfo">
+        insert into wx_user
+        <trim prefix="("  suffixOverrides="," suffix=")">
+            <if test="openId != null and openId != ''">
+                open_id,
+            </if>
+            <if test="nickName != null and nickName != ''">
+                nick_name,
+            </if>
+            <if test="avatarUrl != null and avatarUrl != ''">
+                avatar_url
+            </if>
+            <if test="gender != null and gender != ''">
+                gender,
+            </if>
+            <if test="country != null and country != ''">
+                country,
+            </if>
+            <if test="province != null and province != ''">
+                province,
+            </if>
+            <if test="city != null and city != ''">
+                city,
+            </if>
+            <if test="language != null and language != ''">
+                language,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        value
+        <trim prefix="(" prefixOverrides="," suffix=")" >
+            <if test="openId != null and openId != ''">
+                #{openId},
+            </if>
+            <if test="nickName != null and nickName != ''">
+                #{nickName},
+            </if>
+            <if test="avatarUrl != null and avatarUrl != ''">
+                #{avatarUrl},
+            </if>
+            <if test="gender != null and gender != ''">
+                #{gender},
+            </if>
+            <if test="country != null and country != ''">
+                #{country},
+            </if>
+            <if test="province != null and province != ''">
+                #{province},
+            </if>
+            <if test="city != null and city != ''">
+                #{city},
+            </if>
+            <if test="language != null and language != ''">
+                #{language},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="findUserByOpenId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from wx_user where open_id = #{openId}
+    </select>
+
+    <update id="updateUserByOpenId">
+        update wx_user
+        <set>
+            <trim suffixOverrides=",">
+                <if test="nickName != null and nickName != ''">
+                    nick_name = #{nickName},
+                </if>
+                <if test="phoen != null and phoen != ''">
+                    phoen = #{phoen},
+                </if>
+                <if test="avatarUrl != null and avatarUrl != ''">
+                    avatar_url = #{avatarUrl},
+                </if>
+                <if test="gender != null and gender != ''">
+                    gender = #{gender},
+                </if>
+                <if test="country != null and country != ''">
+                    country = #{country},
+                </if>
+                <if test="province != null and province != ''">
+                    province = #{province},
+                </if>
+                <if test="city != null and city != ''">
+                    city = #{city},
+                </if>
+                <if test="language != null and language != ''">
+                    language = #{language},
+                </if>
+                <if test="updateTime != null">
+                    update_time = #{updateTime},
+                </if>
+            </trim>
+        </set>
+        <where>
+            open_id = #{openId}
+        </where>
+    </update>
+
+    <select id="findUserInfo" parameterType="com.pghome.pojo.wxchat.WxUserInfo" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from wx_user
+        <where>
+            <trim suffixOverrides="and">
+                <if test="openId != null and openId != ''">
+                    open_id = #{openId} and
+                </if>
+                <if test="phoen != null and phoen != ''">
+                    phoen = #{phoen} and
+                </if>
+            </trim>
+        </where>
+    </select>
+
+</mapper>

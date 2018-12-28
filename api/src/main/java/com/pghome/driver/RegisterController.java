@@ -16,6 +16,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.DataInput;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Auther: tianws
@@ -71,7 +74,11 @@ public class RegisterController {
         if(!password.equals(driverRegister.getPassword())){
             throw new PGException(ResultEnum.PASSWORD_ERROR);
         }
-        return ResultUtil.ok(driverRegister);
+
+        Map map = new HashMap();
+        map.put("phone",driverRegister.getPhone());
+        map.put("senderId",driverRegister.getDriverId());
+        return ResultUtil.ok(map);
     }
 
     /**

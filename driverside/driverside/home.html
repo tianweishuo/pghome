@@ -62,6 +62,10 @@
 			mui.init();
 
 			var timer;
+			var positions = {
+				latitude: '',
+				longitude: ''
+			};
 			mui.plusReady(function() {
 				var ordertaking = document.getElementById("ordertaking");
 				//点击接单
@@ -72,8 +76,6 @@
 							var receipt = document.getElementById("receipt");
 							stopit.classList.add("mui-hidden");
 							receipt.classList.remove("mui-hidden");
-							//开启位置监听
-							//timer = window.setInterval("locationMonitoring()", 1000);
 							//发送websocket连接
 							ONLINE.init();
 						},
@@ -92,105 +94,141 @@
 					stopit.classList.remove("mui-hidden");
 					receipt.classList.add("mui-hidden");
 					clearwatch();
-				})
+				});
+				window.ONLINE = {
+					socket: null,
+					init: function() {
+						//判断是否支持websocket
+						if(window.WebSocket) {
+							console.log("支持websocket");
+							// 如果当前的状态已经连接，那就不需要重复初始化websocket
+							if(ONLINE.socket != null && ONLINE.socket != undefined && ONLINE.socket.readyState == WebSocket.OPEN) {
+								return false;
+							}
+							ONLINE.socket = new WebSocket(app.nettyServerUrl);
+							ONLINE.socket.onopen = ONLINE.wsopen;
+							ONLINE.socket.onclose = ONLINE.wsclose;
+							ONLINE.socket.onerror = ONLINE.wserror;
+							ONLINE.socket.onmessage = ONLINE.wsmessage;
+						} else {
+							alert("手机设备过旧，请升级手机设备...");
+						}
+					},
+					chat: function(msg) {
+						// 如果当前websocket的状态是已打开，则直接发送， 否则重连
+						if(ONLINE.socket != null && ONLINE.socket != undefined && ONLINE.socket.readyState == WebSocket.OPEN) {
+							ONLINE.socket.send(msg);
+						} else {
+							// 重连websocket
+							ONLINE.init();
+							setTimeout("ONLINE.reChat('" + msg + "')", "1000");
+						}
+					},
+					reChat: function(msg) {
+						console.log("消息重新发送...");
+						ONLINE.socket.send(msg);
+					},
+					wsopen: function() {
+						//连接方法
+						console.log("websocket连接已建立...");
+						var me = app.getUserGlobalInfo();
+						//获取定位
+						plus.geolocation.getCurrentPosition(
+							function(position) {
+								// 构建ChatMsg
+								var driverMeg = new app.DriverMeg(me.data.driverId, me.data.phone, position.coords.latitude, position.coords.longitude);
+								// 构建DataContent
+								var dataContent = new app.DataContent(app.CONNECT, driverMeg, null);
+								console.log(JSON.stringify(dataContent));
+								// 发送websocket
+								ONLINE.chat(JSON.stringify(dataContent));
+								// 定时发送心跳
+								setInterval("ONLINE.keepalive()", 10000);
+							},
+							function(error) {
+								clearwatch();
+								rest();
+								plus.nativeUI.alert("定位为开启",
+									function() {
+										console.log("User pressed!");
+									}, "提示", "确认")
+							}, {
+								provider: 'system',
+								enableHighAccuracy: true
+							});
+					},
+					wsclose: function() {
+						//关闭方法
+						console.log("连接关闭...");
+					},
+					wserror: function() {
+						//异常方法
+						console.log("发生错误...");
+					},
+					wsmessage: function(e) {
+						//消息接收
+						//开启音乐
+						//弹出订单信息框
+						console.log("接受到消息：" + e.data);
+
+					},
+					keepalive: function() {
+						// 发送心跳,并定位更新
+						console.log("心跳检测");
+						var me = app.getUserGlobalInfo();
+						plus.geolocation.getCurrentPosition(
+							function(position) {
+								// 构建ChatMsg
+								var driverMeg = new app.DriverMeg(me.data.driverId, me.data.phone, position.coords.latitude, position.coords.longitude);
+								// 构建对象
+								var dataContent = new app.DataContent(app.KEEPALIVE, driverMeg, null);
+								console.log(JSON.stringify(dataContent));
+								// 发送websocket
+								ONLINE.chat(JSON.stringify(dataContent));
+							},
+							function(error) {
+								clearwatch();
+								rest();
+								plus.nativeUI.alert("定位为开启",
+									function() {
+										console.log("User pressed!");
+									}, "提示", "确认")
+							}, {
+								provider: 'system',
+								enableHighAccuracy: true
+							});
+					}
+				};
 
 				//关闭监听设备位置信息
 				function clearwatch() {
+					window.ONLINE.wsclose();
 					clearInterval(timer); //关闭循环
 				};
-				
-				//开启定位监听
+
+				function mode() {
+					alert("模式切换功能升级中...");
+				};
+			});
+
+			//开启定位监听
 			function locationMonitoring() {
 				plus.geolocation.getCurrentPosition(
 					function(position) {
-						console.log("获取定位信息" + JSON.stringify(position));
+						positions.latitude = position.coords.latitude;
+						positions.longitude = position.coords.longitude;
 					},
 					function(error) {
-						console.log("获取定位信息" + JSON.stringify(error));
 						clearwatch();
 						rest();
-						plus.nativeUI.alert("定位为开启", function() {
-							console.log("User pressed!");
-						}, "提示", "确认")
+						plus.nativeUI.alert("定位为开启",
+							function() {
+								console.log("User pressed!");
+							}, "提示", "确认")
 					}, {
 						provider: 'system',
 						enableHighAccuracy: true
 					});
-			};
-
-			});
-
-			window.ONLINE = {
-				socket: null,
-				init: function() {
-					//判断是否支持websocket
-					if(window.WebSocket) {
-						console.log("支持websocket");
-						// 如果当前的状态已经连接，那就不需要重复初始化websocket
-						if(ONLINE.socket != null && ONLINE.socket != undefined && ONLINE.socket.readyState == WebSocket.OPEN) {
-							return false;
-						}
-						ONLINE.socket = new WebSocket(app.nettyServerUrl);
-						ONLINE.socket.onopen = ONLINE.wsopen;
-						ONLINE.socket.onclose = ONLINE.wsclose,
-						ONLINE.socket.onerror = ONLINE.wserror,
-						ONLINE.socket.onmessage = ONLINE.wsmessage;
-					} else {
-						alert("手机设备过旧，请升级手机设备...");
-					}
-				},
-				chat: function(msg) {
-					// 如果当前websocket的状态是已打开，则直接发送， 否则重连
-					if(ONLINE.socket != null && ONLINE.socket != undefined && ONLINE.socket.readyState == WebSocket.OPEN) {
-						ONLINE.socket.send(msg);
-					} else {
-						// 重连websocket
-						ONLINE.init();
-						setTimeout("ONLINE.reChat('" + msg + "')", "1000");
-						ONLINE.reChat('msg');
-					}
-				},
-				reChat: function(msg) {
-					console.log("消息重新发送...");
-					ONLINE.socket.send(msg);
-				},
-				wsopen: function() {
-					//连接方法
-					console.log("websocket连接已建立...");
-					var me = app.getUserGlobalInfo();
-					console.log(JSON.stringify(me));
-					// 构建ChatMsg
-					var chatMsg = new app.ChatMsg(me.data.phone, null, null, null);
-					// 构建DataContent
-					var dataContent = new app.DataContent(app.CONNECT, chatMsg, null);
-					// 发送websocket
-					ONLINE.chat(JSON.stringify(dataContent));
-					// 定时发送心跳
-					setInterval("ONLINE.keepalive()", 10000);
-				},
-				wsclose: function() {
-					//关闭方法
-					console.log("连接关闭...");
-				},
-				wserror: function() {
-					//异常方法
-					console.log("发生错误...");
-				},
-				wsmessage: function(e) {
-					//消息接受
-					console.log("接受到消息：" + e.data);
-				},
-				keepalive: function() {
-					// 构建对象
-					var dataContent = new app.DataContent(app.KEEPALIVE, null, null);
-					// 发送心跳
-					ONLINE.chat(JSON.stringify(dataContent));
-				}
-			}
-
-
-			function mode() {
-				alert("模式切换功能升级中...");
 			};
 		</script>
 	</body>

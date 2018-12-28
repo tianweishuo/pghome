@@ -1,11 +1,12 @@
 package com.pghome.api.weixin;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.pghome.constant.WechatApiUrlConstants;
 import com.pghome.constant.WechatContants;
+import com.pghome.param.wechat.WxUserInfoParam;
 import com.pghome.pojo.wx.WeChatCode2Session;
-import com.pghome.pojo.wx.WeChatUserInfo;
+import com.pghome.pojo.wxchat.WxUserInfo;
+import com.pghome.service.WxUserService;
 import com.pghome.utils.HttpUtils;
 import com.pghome.utils.ResultUtil;
 import com.pghome.utils.ValidationUtil;
@@ -38,6 +39,9 @@ public class WeChatController {
     @Autowired
     private WxMpService wxMpService;
 
+    @Autowired
+    private WxUserService wxUserService;
+
 
 
 
@@ -47,7 +51,6 @@ public class WeChatController {
      */
     @GetMapping("/openid")
     public ResultUtil openid(@RequestParam("code") String code){
-        /*?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code*/
         Map<String,Object> param = new HashMap();
         param.put("appid",wechatContants.getAppid());
         param.put("secret",wechatContants.getSecret());
@@ -64,9 +67,23 @@ public class WeChatController {
      * @return
      */
     @PostMapping("/userinfo")
-    public ResultUtil userinfo(WeChatUserInfo userInfo){
-        logger.info(userInfo.toString());
+    public ResultUtil userinfo(@RequestBody WxUserInfoParam param){
+        logger.info("[控制层:微信用户授权信息获取]:开始");
+        logger.info("[控制层:微信用户授权信息获取]:userinfo=={}",param);
+        wxUserService.insert(param);
+        logger.info("[控制层:微信用户授权信息获取]:结束");
         return ResultUtil.ok();
+    }
+
+    /**
+     * 检测手机号是否存在
+     * @param openId
+     * @return
+     */
+    @GetMapping("/checkPhone")
+    public ResultUtil checkPhone(@RequestParam("openId") String openId){
+        WxUserInfo userinfo = wxUserService.findUserinfoByPhone(openId);
+        return ResultUtil.ok(userinfo);
     }
 
 

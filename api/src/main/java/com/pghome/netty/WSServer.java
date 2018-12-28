@@ -5,6 +5,8 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,6 +16,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class WSServer {
+
+    private static final Logger logger = LoggerFactory.getLogger(WSServer.class);
 
     private ServerBootstrap server;
     private EventLoopGroup mainGroup;
@@ -39,7 +43,7 @@ public class WSServer {
 
     public void start() {
         this.future = server.bind(8088);
-        System.err.println("netty websocket server 启动完毕...");
+        logger.info("netty websocket server 启动完毕...");
     }
 
 

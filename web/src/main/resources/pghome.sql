@@ -1,5 +1,24 @@
 create database pghome;
 
+--微信用户表
+CREATE TABLE `wx_user` (
+  `open_id` varchar(50) NOT NULL COMMENT '微信用户主键',
+  `nick_name` varchar(10) DEFAULT NULL COMMENT '昵称',
+  `phoen` varchar(25) DEFAULT NULL COMMENT '手机号',
+  `avatar_url` varchar(255) DEFAULT NULL COMMENT '用户头像图片的 URL',
+  `gender` tinyint(3) DEFAULT '0' COMMENT '用户性别:0-未知,1-男性,2-女性',
+  `country` varchar(10) DEFAULT NULL COMMENT '所属的国家',
+  `province` varchar(10) DEFAULT NULL COMMENT '用户所在省份',
+  `city` varchar(50) DEFAULT NULL COMMENT '用户所在城市',
+  `language` varchar(10) DEFAULT NULL COMMENT '显示 country，province，city 所用的语言 en-英文,zh_CN-简体中文,zh_TW-繁体中文',
+  `update_time` datetime NOT NULL DEFAULT '1000-01-01 00:00:00' COMMENT '更新时间',
+  `create_time` datetime NOT NULL DEFAULT '1000-01-01 00:00:00' COMMENT '创建时间',
+  PRIMARY KEY (`open_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='微信用户表';
+
+
+
+
 --叫车订单
 create table call_order(
   call_order_id varchar(20) primary key not null comment '叫车订单id',

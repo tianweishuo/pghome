@@ -7,7 +7,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    loginModelHidden: 0,
+    openid: null,
+    sessionKey: null,
+    loginModelHidden: false,
     specialcarhide: false,
     messagehide: true,
     carmoney: 0,
@@ -43,11 +45,42 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
+  onLoad: function (options) {
     var that = this;
+    wx.login({
+      success: function (res) {
+        //获取openid接口
+        wx.request({
+          url: app.globalData.url + '/wechat/openid',
+          data: {
+            code: res.code
+          },
+          success: function (res) {
+            console.log(res);
+            that.setData({
+              openid: res.data.data.openid,
+              sessionKey: res.data.data.sessionKey
+            })
+          }
+        })
+      }
+    })
+
+    // 查看是否授权
+    wx.getSetting({
+      success: function (res) {
+        //是否授权用户信息
+        if (!res.authSetting['scope.userInfo']) {
+          that.setData({
+            loginModelHidden: true
+          })
+        }
+      }
+    })
+
     //  高度自适应（rpx）
     wx.getSystemInfo({
-      success: function(res) {
+      success: function (res) {
         var clientHeight = res.windowHeight - 120,
           clientWidth = res.windowWidth,
           rpxR = 750 / clientWidth;
@@ -64,8 +97,7 @@ Page({
     //获取位置
     wx.getLocation({
       type: 'gcj02', //默认为 wgs84 返回 gps 坐标，gcj02 返回可用于wx.openLocation的坐标
-      success: function(res) {
-        console.log('页面初始化' + JSON.stringify(res));
+      success: function (res) {
         var startmarker = {
           id: 0,
           latitude: res.latitude,
@@ -100,7 +132,7 @@ Page({
             latitude: res.latitude,
             longitude: res.longitude
           },
-          success: function(addressRes) {
+          success: function (addressRes) {
             console.log(addressRes);
             var address = addressRes.result.formatted_addresses.recommend;
             startLocation.address = address;
@@ -118,56 +150,56 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function() {
+  onReady: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {
+  onShow: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function() {
+  onHide: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function() {
+  onUnload: function () {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function() {
+  onPullDownRefresh: function () {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function() {
+  onReachBottom: function () {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
+  onShareAppMessage: function () {
 
   },
   //移动选点开始
-  choosestartplace: function() {
+  choosestartplace: function () {
     var _this = this;
     wx.chooseLocation({
-      success: function(res) {
+      success: function (res) {
         var markers = [];
         let startLocation = {
           longitude: res.longitude,
@@ -218,16 +250,16 @@ Page({
           }
         }
       },
-      fail: function(err) {
+      fail: function (err) {
         console.log(err)
       }
     });
   },
   //移动选择结束
-  chooseendplace: function() {
+  chooseendplace: function () {
     var _this = this;
     wx.chooseLocation({
-      success: function(res) {
+      success: function (res) {
         console.log(res);
         var marker = {
           id: 1,
@@ -279,13 +311,13 @@ Page({
           }
         }
       },
-      fail: function(err) {
+      fail: function (err) {
         console.log(err)
       }
     });
   },
   //事件回调函数
-  driving: function() {
+  driving: function () {
     var _this = this;
     _this.setData({
       includePoints: []
@@ -312,7 +344,7 @@ Page({
       method: 'GET',
       dataType: 'json',
       //请求成功回调
-      success: function(res) {
+      success: function (res) {
         console.log(res.data.result.routes[0]);
         var ret = res.data
         if (ret.status != 0) return; //服务异常处理
@@ -344,39 +376,50 @@ Page({
     wx.request(opt);
   },
   //确定叫车
-  callTaxi: function() {
-    console.log("叫车");
+  callTaxi: function () {
+    console.log("呼叫出租车");
     var _this = this;
     //1.先做一些安全检验
-
-    //2.调用后台数据
     wx.request({
-      url: app.globalData.url + '/passenger/call',
-      method: 'post',
-      data: {
-        callPhone: "15010050865",
-        startPositionName: _this.data.startLocation.address,
-        startLatitude: _this.data.startLocation.latitude,
-        startLongitude: _this.data.startLocation.longitude,
-        endPositionName: _this.data.endLocation.address,
-        endLatitude: _this.data.endLocation.latitude,
-        endLongitude: _this.data.endLocation.longitude
-      },
-      success: function(res) {
-        //接口调用成功的回调函数
-        console.log(res.data);
-        wx.navigateTo({
-          url: '../callout/callout?callOrderId=' + res.data.data,
-        })
-      },
-      fail: function(err) {
-        //接口调用失败的回调函数
-        console.log(err)
+      url: app.globalData.url + '/wechat/checkPhone?openId=' + _this.data.openid,
+      success: function (res) {
+        if (res.data.data.code == 200) {
+          //2.调用后台数据
+          wx.request({
+            url: app.globalData.url + '/passenger/call',
+            method: 'post',
+            data: {
+              callPhone: "15010050865",
+              startPositionName: _this.data.startLocation.address,
+              startLatitude: _this.data.startLocation.latitude,
+              startLongitude: _this.data.startLocation.longitude,
+              endPositionName: _this.data.endLocation.address,
+              endLatitude: _this.data.endLocation.latitude,
+              endLongitude: _this.data.endLocation.longitude
+            },
+            success: function (res) {
+              //接口调用成功的回调函数
+              console.log(res.data);
+              wx.navigateTo({
+                url: '../callout/callout?callOrderId=' + res.data.data,
+              })
+            },
+            fail: function (err) {
+              //接口调用失败的回调函数
+              console.log(err)
+            }
+          })
+        }else{
+          console.log("请完善手机号!");
+        }
       }
     })
+
+
+
   },
   //取消按钮
-  cancel: function() {
+  cancel: function () {
     var _this = this;
     _this.setData({
       specialcarhide: false,
@@ -395,10 +438,42 @@ Page({
       }
     });
   },
-  //弹出框
-  userInfo: function() {
-    this.setData({
-      showLeft1: !this.data.showLeft1
-    });
+  //获取用户信息
+  updateUserInfo: function () {
+    var _this = this;
+    // 查看是否授权
+    wx.getSetting({
+      success: function (res) {
+        if (res.authSetting['scope.userInfo']) {
+          _this.setData({
+            loginModelHidden: false
+          })
+          wx.getUserInfo({
+            success: function (res) {
+              wx.request({
+                url: app.globalData.url + '/wechat/userinfo',
+                data: {
+                  openId: _this.data.openid,
+                  avatarUrl: res.userInfo.avatarUrl,
+                  city: res.userInfo.city,
+                  country: res.userInfo.country,
+                  gender: res.userInfo.gender,
+                  language: res.userInfo.language,
+                  nickName: res.userInfo.nickName,
+                  province: res.userInfo.province
+                },
+                method: 'post',
+                success: function (res) {
+                  console.log(res);
+                }
+
+              })
+            }
+          })
+        } else {
+          console.log('没有授权');
+        }
+      }
+    })
   }
 })

@@ -65,7 +65,6 @@ public class PassengerServiceImpl implements PassengerService {
             //存入缓存
             //redisClient.set(order.getCallOrderId(),order);
             byte[] serialize = ProtoStuffUtil.serialize(order);
-            System.out.println(serialize);
             CallOrder deserialize = ProtoStuffUtil.deserialize(serialize, CallOrder.class);
             System.out.println(deserialize);
             redisOperator.set(order.getCallOrderId(), JSON.toJSONString(order));

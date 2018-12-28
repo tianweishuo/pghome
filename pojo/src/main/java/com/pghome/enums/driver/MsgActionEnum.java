@@ -6,12 +6,10 @@ package com.pghome.enums.driver;
  */
 public enum MsgActionEnum {
 	
-	CONNECT(1, "第一次(或重连)初始化连接"),
-	CHAT(2, "聊天消息"),	
-	SIGNED(3, "消息签收"),
-	KEEPALIVE(4, "客户端保持心跳"),
-	PULL_FRIEND(5, "拉取好友"),
-	ORDER_PUSH(6,"订单推送");
+	CONNECT(1, "司机上线或重连"),
+	CALL_ORDER(2, "发送订单"),
+	KEEPALIVE(3,"心跳检查")
+	;
 	
 	public final Integer type;
 	public final String content;

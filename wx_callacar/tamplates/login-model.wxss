@@ -1,18 +1,50 @@
-.loginModel{
-  
+
+.modal-mask {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #000;
+  opacity: 0.5;
+  overflow: hidden;
+  z-index: 9000;
+}
+
+.modal-dialog {
+  width: 540rpx;
+  overflow: hidden;
+  position: fixed;
+  top: 50%;
+  left: 0;
+  z-index: 9999;
+  margin: -180rpx 105rpx;
+  border-radius: 36rpx;
+  background-color: #ffffff;
+}
+
+.modal-title {
+  padding-top:10rpx;
+  text-align: center;
+}
+
+.modal-content {
+  padding: 10rpx 10rpx;
+  text-align: center;
 }
 
 .loginImg{
-  width: 100rpx;
   height: 100rpx;
-}
-
-.loginImg{
   width: 100rpx;
-  height: 100rpx;
 }
-
 .loginBtnimg{
-  width: 100rpx;
-  height: 100rpx;
+  height: 46rpx;
+  width: 46rpx;
+  vertical-align:middle;
 }
+.loginBtn{
+  height: 92rpx;
+  color: #000000;
+  background-color: #269C22;
+}
+

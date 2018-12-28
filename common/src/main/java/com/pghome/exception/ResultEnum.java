@@ -6,6 +6,11 @@ package com.pghome.exception;
  * @Description: 异常
  */
 public enum ResultEnum {
+    //1000XX数据操作/参数/等相关错误
+    INSERT_ERROR(100101,"数据添加失败!"),
+    UPDATE_ERROR(100102,"数据修改失败!"),
+    DELETE_ERROR(100103,"数据删除失败!"),
+    SELECT_ERROR(100104,"数据查询失败!"),
 
     PARAM_ERROR(1,"参数不正确"),
     CART_EMPTY(2,"购物车不能为空"),

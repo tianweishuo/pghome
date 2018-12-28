@@ -65,6 +65,6 @@
 </view>
 
 
-<!-- <import src="../../tamplates/login-model.wxml" />
-<template is="tempLogin" data="{{loginModelHidden:loginModelHidden}}"></template> -->
+<import src="../../tamplates/login-model.wxml" />
+<template is="tempLogin" data="{{loginModelHidden}}"></template>
 

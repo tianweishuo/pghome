@@ -37,20 +37,23 @@
 						mui.openWindow("index.html", "index.html");
 					}
 					var login = doc.getElementById("login");
-					var username = doc.getElementById("username").value;
-					var password = doc.getElementById("password").value;
+					var username = document.getElementById("username").value;
+					var password = document.getElementById("password").value;
 					login.addEventListener('click', function() {
-						if(!app.isNotNull(username)) {
-							alert("账号不能为空!");
+						/*if(!app.isNotNull(username)) {
+							console.log(username);
+							alert("账号不能为空!"+username);
 						} else if(!app.isNotNull(password)) {
-							alert("短信验证码!");
-						}
+							console.log(password);
+							alert("短信验证码!"+password);
+						}*/
 						// 获取每台手机的唯一cid
 						var cid = plus.push.getClientInfo().clientid;
+						console.log(cid);
 						mui.ajax(app.serverUrl + '/driver/login', {
 							data: {
-								username: username,
-								password: password,
+								username: "15010050865",
+								password: "449132",
 								cid: cid
 							},
 							dataType: 'json', //服务器返回json格式数据

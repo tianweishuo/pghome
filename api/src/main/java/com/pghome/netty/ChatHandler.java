@@ -36,35 +36,11 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
 
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg)
-            throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
         // 获取客户端传输过来的消息
         String content = msg.text();
         Channel currentChannel = ctx.channel();
         logger.info("webscoket消息内容:{}",content);
-        // 1. 获取客户端发来的消息
-        DataContent dataContent = JsonUtils.jsonToPojo(content, DataContent.class);
-        Integer action = dataContent.getAction();
-        // 2. 判断消息类型，根据不同的类型来处理不同的业务
-        if(action == MsgActionEnum.ORDER_PUSH.type){
-            //订单推送
-            users.writeAndFlush(
-                    new TextWebSocketFrame(
-                            "[来单了]" + LocalDateTime.now()
-                                    + "接受到消息, 消息为：" + content));
-        }
-        if(action == MsgActionEnum.CONNECT.type){
-
-        }else if(action == MsgActionEnum.KEEPALIVE.type){
-
-        }else if(action == MsgActionEnum.PULL_FRIEND.type){
-
-        }else if(action == MsgActionEnum.ORDER_PUSH.type){
-
-        }
-
-
-
         /*
         // 1. 获取客户端发来的消息
         DataContent dataContent = JsonUtils.jsonToPojo(content, DataContent.class);
