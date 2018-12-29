@@ -1,0 +1,13 @@
+<template name="tempPhone">
+  <i-modal title="验证" visible="{{ phoneModelHidden}}" bind:cancel="checkphoneclose" bind:ok="checkphonesub">
+    <view class='mode'>
+      <view class='phone-mode'>
+        <input class='phone' value='{{phone}}' type='number' bindinput='setvalues' maxlength="11" placeholder='请输入手机号'></input>
+        <i-button class='button' bind:click="sendmessag" type="primary" size="small" disabled='{{isCode}}'>{{getcode}}</i-button>
+      </view>
+      <view class='validate-mode'>
+        <input type='number' placeholder='验证码'></input>
+      </view>
+    </view>
+  </i-modal>
+</template>

@@ -40,7 +40,12 @@ public class BuyerOrderController {
     private BuyerService buyerService;
 
 
-    //创建订单
+    /**
+     * 创建订单
+     * @param orderFrom
+     * @param bindingResult
+     * @return
+     */
     @PostMapping("/create")
     public ResultUtil create(@Valid OrderForm orderFrom, BindingResult bindingResult){
         logger.info("【创建订单】创建订单开始");
@@ -57,7 +62,13 @@ public class BuyerOrderController {
         return ResultUtil.ok(createResult);
     }
 
-    //订单列表
+    /**
+     * 订单列表
+     * @param openid
+     * @param page
+     * @param size
+     * @return
+     */
     public ResultUtil list(@RequestParam("openid")String openid,
                            @RequestParam(value = "page" ,defaultValue = "0")Integer page,
                            @RequestParam(value = "sizi",defaultValue = "10")Integer size){
@@ -68,7 +79,12 @@ public class BuyerOrderController {
         return ResultUtil.ok();
     }
 
-    //订单详情
+    /**
+     * 订单详情
+     * @param openid
+     * @param orderId
+     * @return
+     */
     @GetMapping("/detail")
     public ResultUtil detail(@RequestParam("openid")String openid,
                              @RequestParam("orderId")String orderId){
@@ -76,7 +92,12 @@ public class BuyerOrderController {
         return ResultUtil.ok(orderDTO);
     }
 
-    //取消订单
+    /**
+     * 取消订单
+     * @param openid
+     * @param orderId
+     * @return
+     */
     @PostMapping("/cancel")
     public ResultUtil cancel(@RequestParam("openid")String openid,
                              @RequestParam("orderId")String orderId){
@@ -88,7 +109,11 @@ public class BuyerOrderController {
     }
 
 
-    //转换
+    /**
+     * 转换
+     * @param orderForm
+     * @return
+     */
     private OrderDTO convert(OrderForm orderForm){
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setBuyerName(orderForm.getName());

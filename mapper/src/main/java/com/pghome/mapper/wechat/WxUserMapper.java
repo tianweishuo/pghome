@@ -1,7 +1,6 @@
 package com.pghome.mapper.wechat;
 
 import com.pghome.pojo.wxchat.WxUserInfo;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 

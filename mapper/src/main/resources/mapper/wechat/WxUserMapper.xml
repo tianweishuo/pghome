@@ -29,7 +29,7 @@
                 nick_name,
             </if>
             <if test="avatarUrl != null and avatarUrl != ''">
-                avatar_url
+                avatar_url,
             </if>
             <if test="gender != null and gender != ''">
                 gender,
@@ -54,7 +54,7 @@
             </if>
         </trim>
         value
-        <trim prefix="(" prefixOverrides="," suffix=")" >
+        <trim prefix="(" suffixOverrides="," suffix=")" >
             <if test="openId != null and openId != ''">
                 #{openId},
             </if>

@@ -24,4 +24,17 @@ public interface WxUserService {
      */
     WxUserInfo findUserinfoByPhone(String openId);
 
+    /**
+     * 通过openid更新手机
+     * @param openId
+     * @param phone
+     */
+    void updatePhoneByOpenId(String openId,String phone);
+
+    /**
+     * 通过opendid查询用户
+     * @return
+     */
+    WxUserInfo findUserInfoByOpenid(String openId);
+
 }

@@ -1,23 +1,12 @@
-<i-drawer mode="left" visible="{{showLeft1}}" bind:close="toggleLeft1">
-  <view class="demo-container">
-    单击遮罩层关闭
-  </view>
-</i-drawer>
-
 <view class='main'>
-  <view class='item item1' bindtap='userInfo'>
-    <i-icon class="icon-head" size="30" type="addressbook_fill" />
-  </view>
-  <view class='item item2'>
+  <view class='item item1'>
     <i-tabs current="{{ current }}" bindchange="handleChange">
       <i-tab key="tab1" title="打车出现"></i-tab>
     </i-tabs>
   </view>
 </view>
 
-
 <view class='taxi-page' style='height:{{winHeight*0.6}}rpx'>
-
   <view class="taxi-content">
     <view class="taxi-eta">
       <view class="mf-part-loading" style="display: block;">
@@ -68,3 +57,5 @@
 <import src="../../tamplates/login-model.wxml" />
 <template is="tempLogin" data="{{loginModelHidden}}"></template>
 
+<import src='../../tamplates/phone-model.wxml' />
+<template is="tempPhone" data="{{phoneModelHidden,getcode,isCode}}"></template>

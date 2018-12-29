@@ -54,9 +54,6 @@ public class Sid {
     
     public static void main(String[] args) {
 		String aa = new Sid().nextShort();
-		String bb = new Sid().next();
-
 		System.out.println(aa);
-		System.out.println(bb);
 	}
 }

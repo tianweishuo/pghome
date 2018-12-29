@@ -1,14 +1,18 @@
 <template name="tempLogin">
-  <view class="modal-mask" catchtouchmove="preventTouchMove" wx:if="{{loginModelHidden}}"></view>
+  <!-- <view class="modal-mask" catchtouchmove="preventTouchMove" wx:if="{{loginModelHidden}}"></view>
   <view class="modal-dialog" wx:if="{{loginModelHidden}}">
     <view class="modal-title">
       <image class="loginImg" src="../../images/login.png"></image>
     </view>
     <view class="modal-content">
       <view class="loginText">我们需要获得您的授权，以继续操作</view>
-      <button class='loginBtn' bindgetuserinfo="updateUserInfo" class="loginBtn" openType="getUserInfo">
+      <button class='loginBtn' bindgetuserinfo="updateUserInfo" class="loginBtn" open-type="openSetting">
       <image class="loginBtnimg" src="../../images/weixin.png"></image>微信授权登录
     </button>
     </view>
-  </view>
+  </view> -->
+
+  <!-- <i-modal title="授权登录" visible="{{ loginModelHidden}}">
+    <view class="loginText">我们需要获得您的授权，以继续操作</view>
+  </i-modal> -->
 </template>

@@ -1,0 +1,30 @@
+.mode {
+  height: 200rpx;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.phone-mode {
+  height: 50%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.validate-mode {
+  height: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-top: 1rpx solid #ECEDEF;
+}
+
+.phone{
+  width: 50%;
+}
+
+.button{
+  width: 50%;
+}

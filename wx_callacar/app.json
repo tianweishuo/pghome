@@ -1,14 +1,35 @@
 {
-  "pages":[
-    "pages/index/index",
+  "pages": [
+    "pages/authorize/authorize",
     "pages/chuxing/chuxing",
     "pages/navigation/navigation",
-    "pages/callout/callout"
+    "pages/callout/callout",
+    "pages/index/index",
+    "pages/my/my"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "我要打车",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#8a8a8a",
+    "selectedColor": "#ef6769",
+    "borderStyle": "white",
+    "backgroundColor": "#f8f9fb",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "images/home.png",
+        "selectedIconPath": "images/home_s.png",
+        "text": "主页"
+      },{
+        "pagePath": "pages/my/my",
+        "text": "我的",
+        "iconPath": "images/my.png",
+        "selectedIconPath": "images/my_s.png"
+      }
+    ]
   }
 }

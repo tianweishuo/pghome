@@ -11,7 +11,7 @@ App({
     })
   },
   globalData: {
-    url:'http://127.0.0.1:8080',
+    url:'http://28cw4v.natappfree.cc',
     websocket:'ws://127.0.0.1:8088/ws',
     userInfo: null,
     key: "BZOBZ-7TPKP-J3NDT-L6Z45-VYNCH-XMBNN",

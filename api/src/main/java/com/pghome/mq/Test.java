@@ -73,6 +73,7 @@ public class Test {
                 /**
                  * * 默认msgs里只有一条消息，可以通过设置consumeMessageBatchMaxSize参数来批量接收消息
                  */
+                @Override
                 public ConsumeConcurrentlyStatus consumeMessage(
                         List<MessageExt> msgs, ConsumeConcurrentlyContext context) {
 

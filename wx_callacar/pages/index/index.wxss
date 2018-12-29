@@ -1,4 +1,5 @@
 @import "../../tamplates/login-model.wxss";
+@import "../../tamplates/phone-model.wxss";
 
 page {
   width: 100%;

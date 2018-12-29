@@ -1,6 +1,7 @@
 package com.pghome.api.weixin;
 
 import com.alibaba.fastjson.JSON;
+import com.pghome.SpringUtil;
 import com.pghome.constant.WechatApiUrlConstants;
 import com.pghome.constant.WechatContants;
 import com.pghome.param.wechat.WxUserInfoParam;
@@ -11,6 +12,7 @@ import com.pghome.utils.HttpUtils;
 import com.pghome.utils.ResultUtil;
 import com.pghome.utils.ValidationUtil;
 import me.chanjar.weixin.mp.api.WxMpService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +53,8 @@ public class WeChatController {
      */
     @GetMapping("/openid")
     public ResultUtil openid(@RequestParam("code") String code){
+        WxUserService wxUserService1 = (WxUserService)SpringUtil.getBean("wxUserServiceImpl");
+        WxUserService wxUserService2 = (WxUserService)SpringUtil.getBean("wxUserServiceImpl");
         Map<String,Object> param = new HashMap();
         param.put("appid",wechatContants.getAppid());
         param.put("secret",wechatContants.getSecret());
@@ -63,16 +67,28 @@ public class WeChatController {
     }
 
     /**
-     * 接受用户信息
+     * 新增用户
      * @return
      */
-    @PostMapping("/userinfo")
-    public ResultUtil userinfo(@RequestBody WxUserInfoParam param){
+    @PostMapping("/add")
+    public ResultUtil add(@RequestBody WxUserInfoParam param){
         logger.info("[控制层:微信用户授权信息获取]:开始");
         logger.info("[控制层:微信用户授权信息获取]:userinfo=={}",param);
         wxUserService.insert(param);
         logger.info("[控制层:微信用户授权信息获取]:结束");
         return ResultUtil.ok();
+    }
+
+
+    /**
+     * 获取用户信息
+     * @param openid
+     * @return
+     */
+    @GetMapping("/userInfo")
+    public ResultUtil userInfo(@RequestParam("openid") String openid){
+        WxUserInfo userInfo = wxUserService.findUserInfoByOpenid(openid);
+        return ResultUtil.ok(userInfo);
     }
 
     /**
@@ -84,6 +100,17 @@ public class WeChatController {
     public ResultUtil checkPhone(@RequestParam("openId") String openId){
         WxUserInfo userinfo = wxUserService.findUserinfoByPhone(openId);
         return ResultUtil.ok(userinfo);
+    }
+
+
+    /**
+     * 完善手机号
+     * @return
+     */
+    @PostMapping("/registerPhone")
+    public ResultUtil registerPhone(@RequestParam("openId") String openId,@RequestParam("phone")String phone){
+        wxUserService.updatePhoneByOpenId(openId,phone);
+        return ResultUtil.ok();
     }
 
 
